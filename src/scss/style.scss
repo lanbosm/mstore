@@ -1,0 +1,220 @@
+
+// normalize css
+@import './normalize.css';
+
+// @import './scaffold.scss';
+
+// @import './mixins.scss';
+
+// @import './dimension.scss';
+
+// @import './page.scss';
+
+// @import './packages/index.scss';
+
+// @import './util.scss';
+
+// Global Transition Effects
+// @import './transition/index.scss';
+
+*{
+
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-touch-callout: none;
+
+}
+
+// remove body margin, set font family in ios
+body {
+	font-family: $font-family;
+  font-size: $font-size;
+	margin-left: 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+	background-color: #F4F4F4;
+	-webkit-text-size-adjust: 100%;
+}
+
+// remove defult list-style
+ol,
+ul {
+	list-style:none;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+	margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// Images
+img {
+  vertical-align: middle;
+  // display: block;
+  //  width: 100%
+}
+
+// remove default margin
+p {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.p{
+
+  margin-bottom: 10px;
+}
+
+input,textarea{background: none;border: none;resize: none;outline: none;}
+
+// iOS "clickable elements" fix for role="button"
+//
+// Fixes "clickability" issue (and more generally, the firing of events such as focus as well)
+// for traditionally non-focusable elements with role="button"
+// see https://developer.mozilla.org/en-US/docs/Web/Events/click#Safari_Mobile
+
+[role="button"] {
+  cursor: pointer;
+}
+
+
+.page{
+  background: #ffffff;
+}
+
+.pa{
+  position: absolute;
+}
+.pr{
+  position: relative;
+}
+.full{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.price{
+   color: $orange;
+}
+
+.flex{
+  display: flex !important;
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.flex-row{
+  flex-direction:row;
+}
+//水平居中;
+.center-block{
+  justify-content: center;
+}
+
+.align-center{
+  align-items: center;
+}
+
+
+.mg-l-15{
+  margin-left: 15px;
+}
+
+.mg-r-15{
+  margin-right: 15px;
+}
+
+.mg-15{
+  margin-left: 15px;
+  margin-top: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+.pd-l-15{
+  padding-left: 15px;
+}
+
+.pd-r-15{
+  padding-left: 15px;
+}
+
+.pd-15{
+
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+}
+.pd-l-30{
+  padding-left: 30px;
+}
+.pd-r-30{
+    padding-right: 30px;
+}
+.mg-l-30{
+  margin-left: 30px;
+}
+.mg-r-30{
+  margin-right: 30px;
+}
+.mg-t-20{
+  margin-top: 20px;
+}
+.mg-t-10{
+  margin-top: 10px;
+}
+.mg-r-100{
+  margin-right: 100px;
+}
+.mg-r-60{margin-right: 60px;}
+.show{
+  display: flex !important;
+}
+.hide{
+  display: none !important;
+}
+
+.clearfix{
+   @include clearfix;
+}
+
+.img-responsive{
+   @include img-responsive;
+}
+
+.font-15{
+  font-size: 15px;
+}
+.font-12{
+  font-size: 12px;
+}
+.font-18{
+  font-size: 18px;
+}
+.font-16{
+  font-size: 16px;
+}
+.font-14{
+  font-size: 14px;
+}
+.font-20{
+  font-size: 20px;
+}
+.font-24{
+  font-size: 24px;
+}
+.margin-t-10{
+  margin-top: 10px;
+}

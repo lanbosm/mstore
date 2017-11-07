@@ -1,0 +1,77 @@
+// Keep images from scaling beyond the width of their parents.
+@mixin img-responsive($display: block) {
+  display: $display;
+  max-width: 100%; // Part 1: Set a maximum relative to the parent
+  height: auto; // Part 2: Scale the height according to the width, otherwise you get stretching
+}
+
+// Center element auto
+@mixin center-auto ($display: block) {
+	  display: $display;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// Ellipsis font when text overflow
+@mixin font-ellipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+//针对无法100% 外面15px的话 那么内部也这么定位
+@mixin grid-fill($gutter:15px) {
+  position: absolute;
+  top:($gutter/ 2);
+  right:($gutter / 2);
+  left:($gutter/ 2);
+  bottom:($gutter / 2);
+}
+
+
+//针对weex特质padding
+@mixin padding($padding-left,$padding-top,$padding-bottom,$padding-right) {
+  padding-left: $padding-left;
+  padding-top: $padding-top;
+  padding-bottom: $padding-bottom;
+  padding-right: $padding-right;
+}
+
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin photo($width,$height,$border:5px) {
+  width: $width;
+  height: $height;
+  border-radius:$border;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cccccc;
+}
+
+//@import "mixins/grid-framework";
+//@import "mixins/grid";
+//@import "mixins/float";
