@@ -9,7 +9,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      alias:'/home',
+      alias:['/home','/index.html'],
       name: 'home',
       component(resolve) {
         require(['@/views/Home'], resolve);

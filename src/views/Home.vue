@@ -88,7 +88,7 @@
 
                 <ul>
                   <li class="duoping-item" v-for="index in 3" :key="index">
-                    <duo-pin-box class="duopin"    >
+                    <duo-pin-box class="duopin" @click="pagePush('/detail/3')"    >
 
                     </duo-pin-box>
                     <!--<div class="dl">-->
@@ -133,7 +133,7 @@
             </div>
             <div class="home-session-con" v-if="moredata.length>0">
               <ul>
-                <li class="more-item" v-for="item in moredata" >
+                <li class="more-item" v-for="item in moredata" @click="pagePush('/detail/3')" >
                     <div class="dl">
                       <div class="dt">
                           <img class="img-responsive" :src="item.url"/>
@@ -737,19 +737,19 @@ export default {
                   banner: [{
                       title: '石头门',
                       desc: '石头门2',
-                      url: './static/images/test.jpg',
+                      url: './mstore/static/images/test.jpg',
                       price:300
                     },
                     {
                       title: '艾瑞莉娅',
                       desc: '刀锋意识刀锋意识',
-                      url: './static/images/arelia.jpg',
+                      url: './mstore/static/images/arelia.jpg',
                       price:400
                     },
                     {
                       title: '妹子欣赏',
                       desc: '这是一个妹子妹子的图片',
-                      url: './static/images/meizi.jpg',
+                      url: './mstore/static/images/meizi.jpg',
                       price:500
                     }
                   ],
@@ -794,19 +794,19 @@ export default {
                   banner: [{
                       title: '阿狸',
                       desc: '九尾妖狐',
-                      url: './static/images/ali.jpg',
+                      url: './mstore/static/images/ali.jpg',
                       price:300
                     },
                     {
                       title: '艾瑞莉娅',
                       desc: '刀锋意识刀锋意识',
-                      url: './static/images/arelia.jpg',
+                      url: './mstore/static/images/arelia.jpg',
                       price:400
                     },
                     {
                       title: '妹子欣赏',
                       desc: '这是一个妹子妹子的图片',
-                      url: './static/images/meizi.jpg',
+                      url: './mstore/static/images/meizi.jpg',
                       price:500
                     }
                   ],
