@@ -15,7 +15,7 @@ let utilFunc = {
         let fontCss=document.createElement('link');
             fontCss.rel="stylesheet";
             fontCss.type="text/css";
-            fontCss.href="http://at.alicdn.com/t/font_423293_oalpx9xgy4i8jjor.css"
+            fontCss.href="https://at.alicdn.com/t/font_423293_oalpx9xgy4i8jjor.css"
         head.appendChild(fontCss);
       //  alert(dom);
     },
