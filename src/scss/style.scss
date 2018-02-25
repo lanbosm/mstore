@@ -107,6 +107,9 @@ input,textarea{background: none;border: none;resize: none;outline: none;}
    color: $orange;
 }
 
+.pink{
+  color: $pink;
+}
 .flex{
   display: flex !important;
 }
@@ -127,7 +130,9 @@ input,textarea{background: none;border: none;resize: none;outline: none;}
   align-items: center;
 }
 
-
+.field{
+  flex:1;
+}
 .mg-l-15{
   margin-left: 15px;
 }

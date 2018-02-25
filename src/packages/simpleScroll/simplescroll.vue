@@ -52,6 +52,10 @@
         type: Boolean,
         default: true
       },
+      tap:{
+        type: Boolean,
+        default: false
+      },
       listenScroll: {
         type: Boolean,
         default: false
@@ -62,7 +66,7 @@
       },
       direction: {
         type: String,
-        default: false
+        default: ''
       },
       startY: {
         type: Number,
@@ -164,10 +168,7 @@
       scrollToElement() {
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       },
-      clickItem(e, item) {
-        console.log(e)
-        this.$emit('click', item)
-      },
+
       destroy() {
         this.scroll.destroy()
       }

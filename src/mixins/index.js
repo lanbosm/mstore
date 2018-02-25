@@ -23,5 +23,10 @@ export default {
     appOut(){
       window.location.href="ddh_ios://doClose";
     },
+    getRandomNum(Min,Max){
+      var Range = Max - Min;
+      var Rand = Math.random();
+      return(Min + Math.round(Rand * Range));
+    }
   }
 };

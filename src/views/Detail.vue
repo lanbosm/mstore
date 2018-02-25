@@ -27,8 +27,12 @@
                 <img  class="img-responsive" :src='productDetail.banner' />
               </div>
               <div class="item-info-list">
-                <div class="item-info-list-row" >
-                  价格 <span>{{productDetail.price | currency}}</span>
+                <div class="item-info-list-row title" >
+                  商品名称 <span>{{productDetail.name}}</span>
+                </div>
+                <div class="item-info-list-row flex flew-row" >
+                  <span class="field price">价格 {{productDetail.price | currency}}</span>
+                  <span class="field stock" >库存 {{productDetail.price }}</span>
                 </div>
                 <div class="item-info-list-row" >
                   发货地 {{productDetail.city}}
@@ -73,6 +77,7 @@
 
     <div class="detail-footer flex flex-row">
       <div class="detail-footer-item favorite">
+        <i class="iconfont icon-xing" :class="{'unfavorite':!favorited,'hasfavorite':favorited}" @click="toFavorite()"></i>
         <span class="footer-txt">关注</span>
       </div>
       <div class="detail-footer-item cart" @click="pagePush('/cart')">
@@ -217,9 +222,22 @@
       .item-info-list{
         margin-top: $gutter;
         .item-info-list-row{
+          &.title{
+            font-size: 18px;
+          }
           padding-left: $gutter; padding-right: $gutter;
           padding-top: $gutter;
           padding-bottom: $gutter;
+          .price{
+              font-size: 16px;
+              align-self: flex-start;
+          }
+          .stock{
+              color: $gray-dark;
+              display: flex;
+              justify-content:  flex-end;
+
+          }
         }
       }
     }
@@ -266,6 +284,12 @@
       align-items: center;
       &.favorite{
         flex: 1;
+        .unfavorite{
+           color: $gray-default;
+        }
+        .hasfavorite{
+          color: $pink;
+        }
       }
       &.cart{
         flex: 1;
@@ -295,7 +319,8 @@
         tabbarIndex:1,
         productDetail:{},
         id:null,
-        quantity:1
+        quantity:1,
+        favorited:false
       }
     },
     created(){
@@ -326,7 +351,9 @@
       fetchData(){
 
         this.$store.dispatch('getDetail',this.id).then(res=>{
-          this.productDetail=res.productDetail;
+
+            this.productDetail=res.productDetail;
+
         }).catch(res=>{
           console.log(res);
         })
@@ -338,6 +365,19 @@
           position: 'bottom',
           duration: 1000});
 
+      },
+      toFavorite(){
+        let message='关注成功'
+
+         if(this.favorited){
+            message='取消成功';
+           this.favorited=false;
+         }else{
+           this.favorited=true;
+         }
+        this.$toast({message,
+          position: 'bottom',
+          duration: 1000});
       },
       buyNow(){
 

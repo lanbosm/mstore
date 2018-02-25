@@ -48,11 +48,11 @@
             <div class="home-session-title" @click="pagePush('/recommend')">
               精选推荐
             </div>
-            <simple-scroll v-if="data.homesession1" ref="jingxuanScroll"  class="home-session-con"  direction="horizontal">
+            <simple-scroll v-if="data.homesession1" :click=innerClick ref="jingxuanScroll"  class="home-session-con"  direction="horizontal">
                 <ul >
-                  <li class="jingxuan-item" v-for="index in 4" :key="index">
+                  <li class="jingxuan-item" v-for="index in 4" :key="index" @click="pagePush({ path: `/detail/${index}`})">
 
-                    <duo-pin-box class="tuijian"  :goShop="false"  >
+                    <duo-pin-box class="tuijian"  >
 
                     </duo-pin-box>
                       <!--<div class="dl">-->
@@ -76,36 +76,12 @@
             <div class="home-session-title" @click="pagePush('/discount')">
                 多拼多惠
             </div>
-            <simple-scroll  v-if="data.homesession2" ref="duopingScroll"  class="home-session-con"  direction="horizontal">
+            <simple-scroll  v-if="data.homesession2" :click=innerClick  ref="duopingScroll"  class="home-session-con"  direction="horizontal">
 
-              <!--<div class="listView" >-->
+                <ul >
+                  <li class="duoping-item" v-for="index in 3" :key="index" @click="pagePush({ path: `/detail/${index}`})">
+                    <duo-pin-box class="duopin"  ></duo-pin-box>
 
-                <!--<duo-pin-box class="duopin" v-for="(item, index) in moredata" :key="index" >-->
-
-                <!--</duo-pin-box>-->
-                <!---->
-              <!--</div>-->
-
-                <ul>
-                  <li class="duoping-item" v-for="index in 3" :key="index">
-                    <duo-pin-box class="duopin"    >
-
-                    </duo-pin-box>
-                    <!--<div class="dl">-->
-                      <!--<div class="dt">-->
-                        <!--<img class="img-responsive" :src='data.homesession2[0].url'/>-->
-                        <!--<span class="ping">去拼购</span>-->
-                        <!--<span class="price">{{data.homesession2[0].price | currency}}</span>-->
-                      <!--</div>-->
-                      <!--<div class="dd">-->
-                        <!--<div class="p">-->
-                          <!--<span>{{data.homesession2[0].pingpai | currency}}</span>-->
-                        <!--</div>-->
-                        <!--<div class="p">-->
-                          <!--<span>{{data.homesession2[0].desc}}</span>      <span>已购{{data.homesession2[0].buy}}件</span>-->
-                        <!--</div>-->
-                      <!--</div>-->
-                    <!--</div>-->
                   </li>
                 </ul>
               </simple-scroll>
@@ -617,6 +593,7 @@ export default {
   name: 'home',
   data() {
     return {
+      innerClick:false,
       firstAnime:true,
       scrollbar: false,
       scrollbarFade: true,
@@ -627,7 +604,6 @@ export default {
       pullUpLoadThreshold: 90,
       pageMore:0,   //更多部分的数据
       tabbarIndex:0,
-
       bannerStyle: [ //banner1的样式
         {
 
@@ -704,8 +680,14 @@ export default {
   mounted() {
 
 
+
+
+
+
+
   },
   methods: {
+
     changeIndex(e) {
 
       let clone = [...this.bannerStyle];
@@ -737,25 +719,25 @@ export default {
                   banner: [{
                       title: '石头门',
                       desc: '石头门2',
-                      url: './static/images/test.jpg',
+                      url: '/static/images/test.jpg',
                       price:300
                     },
                     {
                       title: '艾瑞莉娅',
                       desc: '刀锋意识刀锋意识',
-                      url: './static/images/arelia.jpg',
+                      url: '/static/images/arelia.jpg',
                       price:400
                     },
                     {
                       title: '妹子欣赏',
                       desc: '这是一个妹子妹子的图片',
-                      url: './static/images/meizi.jpg',
+                      url: '/static/images/meizi.jpg',
                       price:500
                     }
                   ],
                   homesession1:[
                       {
-                        url:'//img13.360buyimg.com/babel/s100x100_jfs/t10942/193/2267555781/12342/9c76c769/59f32d1aN42908ab2.jpg!q90.webp',
+                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -764,7 +746,7 @@ export default {
                   ],
                   homesession2:[
                       {
-                        url:'//img13.360buyimg.com/babel/s100x100_jfs/t10942/193/2267555781/12342/9c76c769/59f32d1aN42908ab2.jpg!q90.webp',
+                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -773,7 +755,7 @@ export default {
                   ],
                   homesession3:[
                       {
-                        url:'/static/images/qq.png',
+                        url:'//static.dorodoro-lab.com/static/images/adidds.jpg',
                         pid:18
                       }
                   ]
@@ -812,7 +794,7 @@ export default {
                   ],
                   homesession1:[
                       {
-                        url:'//img12.360buyimg.com/babel/s100x100_jfs/t10927/313/2285325598/11714/e8ce99bf/59f32c53N3109ba1f.jpg!q90.webp',
+                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -821,7 +803,7 @@ export default {
                   ],
                   homesession2:[
                       {
-                        url:'//img12.360buyimg.com/babel/s100x100_jfs/t10927/313/2285325598/11714/e8ce99bf/59f32c53N3109ba1f.jpg!q90.webp',
+                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -830,7 +812,7 @@ export default {
                   ],
                   homesession3:[
                       {
-                        url:'//img30.360buyimg.com/da/jfs/t11422/180/758247693/53942/2c9b7366/59f7fb4dN3e19c8ab.gif',
+                        url:'//static.dorodoro-lab.com/static/images/adidds.jpg',
                         pid:18
                       }
                   ]
@@ -845,7 +827,7 @@ export default {
 
 
             newlist.moredata.push({
-                url:this.tabbarIndex==0?'//img12.360buyimg.com/babel/s100x100_jfs/t10927/313/2285325598/11714/e8ce99bf/59f32c53N3109ba1f.jpg!q90.webp':'//img13.360buyimg.com/babel/s100x100_jfs/t10942/193/2267555781/12342/9c76c769/59f32d1aN42908ab2.jpg!q90.webp',
+                url:this.categoryIndex==0?'//static.dorodoro-lab.com/static/images/mt1.jpg':'//static.dorodoro-lab.com/static/images/mt2.jpg',
                 price:1000*i,
                 pingpai:'商品品牌',
                 desc:'商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2'

@@ -1,5 +1,5 @@
 <template>
-  <div class="more-item"  @click="click" >
+  <div class="more-item"   >
     <div class="itemcontainer">
       <div class="image"></div>
       <div class="bar" v-show="goShop">
@@ -49,7 +49,7 @@
     height: 335px;
     border-radius: 4px;
     background-size: cover;
-    background-image: url('https://cbu01.alicdn.com/img/ibank/2017/956/024/4137420659_1475529779.120x120xz.jpg');
+    background-image: url('http://static.dorodoro-lab.com/static/images/12818suud.jpg');
     background-repeat: no-repeat;
   }
   .bar{

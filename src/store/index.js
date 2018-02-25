@@ -46,13 +46,14 @@ const store = new Vuex.Store({
 
             var data=await api.getShopDetail(value);
 
-            if(data.code==20000){  //这里的20000是业务逻辑 通信还是成功了
+            if(data.code==2000){  //这里的20000是业务逻辑 通信还是成功了
                return Promise.resolve(data);
              }
             else{
               return Promise.reject(data);
             }
       } catch (e){ //捕捉错误信息
+
             return  Promise.reject(e);
       }
     },
@@ -60,10 +61,10 @@ const store = new Vuex.Store({
     //单件购买
     async singleBuy({dispatch,commit},value){
       try{
-          
+
             var data=await api.orderBuild(value,'single');
 
-            if(data.code==20000){  //这里的20000是业务逻辑 通信还是成功了
+            if(data.code==2000){  //这里的20000是业务逻辑 通信还是成功了
                return Promise.resolve(data);
              }
             else{

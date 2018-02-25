@@ -16,7 +16,7 @@
             <div  class="category-tab-scroll" v-if="moredata.length>0">
               <scroll  ref="scroll" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" @pullingDown="onPullingDown" @pullingUp="onPullingUp">
                   <ul>
-                    <li class="more-item" v-for="item in moredata" >
+                    <li class="more-item" v-for="item in moredata" @click="pagePush({ path: `/detail/${item.id}`})">
                         <div class="dl">
                           <div class="dt">
                               <img class="img-responsive" :src='item.url'/>
@@ -304,12 +304,14 @@ export default {
           let i=0;
           while(i<8){ //模拟8条数据
 
-
+            var id=this.getRandomNum(1,4);
             newlist.moredata.push({
-                url:this.categoryIndex==1?'//img12.360buyimg.com/babel/s100x100_jfs/t10927/313/2285325598/11714/e8ce99bf/59f32c53N3109ba1f.jpg!q90.webp':'//img13.360buyimg.com/babel/s100x100_jfs/t10942/193/2267555781/12342/9c76c769/59f32d1aN42908ab2.jpg!q90.webp',
+                url:this.categoryIndex==1?'//static.dorodoro-lab.com/static/images/mt1.jpg':'//static.dorodoro-lab.com/static/images/mt2.jpg',
                 price:1000*i,
                 pingpai:'商品品牌',
-                desc:'商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2'
+                desc:'商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2',
+                id:id
+
             });
             i++;
           }

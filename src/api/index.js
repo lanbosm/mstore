@@ -3,8 +3,8 @@ import qs from 'querystring'
 
 
 const baseURL = (process.env.NODE_ENV === 'production')
-    ? 'http://101.132.165.180:8083/mockjsdata/2/'
-    :'http://101.132.165.180:8083/mockjsdata/2/';
+    ? 'http://dorodoro-lab.com:8088/mockjsdata/2/'
+    :'http://dorodoro-lab.com:8088/mockjsdata/2/';
 
 
 let platform='web';
@@ -95,7 +95,7 @@ export default {
   // 商品详情展示信息
   getShopDetail (id) {
 
-    return httpGet(`product/${id}`)
+    return httpGet(`product/${id}?id=${id}`)
 
   },
 

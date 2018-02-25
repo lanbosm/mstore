@@ -1,5 +1,4 @@
 // http://eslint.org/docs/user-guide/configuring
-
 module.exports = {
   root: true,
   parser: 'babel-eslint',
@@ -8,13 +7,14 @@ module.exports = {
     sourceType: 'module'
   },
   env: {
+    node:true,
     browser: true,
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
   extends: 'eslint:recommended',
   // required to lint *.vue files
   plugins: [
-    'html'
+    // 'html'
   ],
   // add your custom rules here
   'rules': {
