@@ -235,6 +235,14 @@ export default {
       pageMore:0,   //更多部分的数据
     }
   },
+  beforeRouteUpdate(){
+
+
+    const toDepth = to.path.split('/').length
+    const fromDepth = from.path.split('/').length
+    this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+
+  },
   computed: {
     scrollbarObj: function() {
       return this.scrollbar ? {

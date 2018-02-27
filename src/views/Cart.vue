@@ -330,7 +330,7 @@ export default {
 
         this.loading=false;
         this.cartList=mdata;
-        console.log(this.cartList);
+       // console.log(this.cartList);
         //
     //  }).catch(_=>{
         //  alert('wangluoshnsh')

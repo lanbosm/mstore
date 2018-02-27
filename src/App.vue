@@ -38,18 +38,29 @@
 
   })(window,document);
 
+  function isSeries(a,b){
+    var res=false;
+    if(a.indexOf(b)>=0){
+      res=true;
+    }
+    else if(b.indexOf(a)>=0){
+      res=true;
+    }
+    return res;
+
+  }
 
 export default {
   name: 'app',
   data () {
     return {
-          history:'/',
           jumpAnime: {},
           historyRoutes: [],
           isAnime:true,
           transitionName:''
     }
   },
+
   watch: {
 			/* ========================================
 			 * Apply Slide Transition Effects For
@@ -60,31 +71,44 @@ export default {
 
           //noPageAnimation
 
-           // 如果2边都不需要动画
+
+            //主动不要动画
             if (to.meta.noPageAnimation == from.meta.noPageAnimation==true) {
                 this.transitionName='';
                 return false;
-            }
-            if(to.name==this.historyRoutes[this.historyRoutes.length-1]){
-                  this.transitionName='page-pop';
-                  this.historyRoutes.pop();
-            }else{ //默认push
-              if (from.name != null) {
-
+            }else if(isSeries(to.path,from.path)){ //同系列
+                const toDepth = to.path.split('/').length;
+                const fromDepth = from.path.split('/').length;
+                //   this.transitionName = toDepth < fromDepth ? 'page-pop'  : 'page-push'
+                if( toDepth<fromDepth){
+                    this.transitionName='page-pop';
+                    this.historyRoutes.pop();
+                }else{
                     this.transitionName='page-push';
                     this.historyRoutes.push(from.name);
+                }
+            }else { //不同系列
+
+              if (this.historyRoutes.length > 0 && to.name == this.historyRoutes[this.historyRoutes.length - 1]) {
+                this.transitionName = 'page-pop';
+                this.historyRoutes.pop();
+              } else { //默认push
+                if (from.name != null) {
+                  this.transitionName = 'page-push';
+                  this.historyRoutes.push(from.name);
+                }
               }
-				}
-			}
+            }
+            //本地存储
+            window.localStorage.setItem('historyRoutes',JSON.stringify(this.historyRoutes));
+      }
 	},
   mounted(){
-      //console.log(this.$store);
+      //本地读取
+      if(window.localStorage.getItem('historyRoutes')){
+          this.historyRoutes=JSON.parse(window.localStorage.getItem('historyRoutes'));
+      }
 
-      //this.$store.commit('transition/setTransition', 12);
-//    window.addEventListener("popstate", e=>{
-//        console.log(222);
-//      this.$root.$refs.app.jumpAnime=    this.$root.$refs.app.backway
-//    }, false);
   },
   methods:{
     clearTransition() {

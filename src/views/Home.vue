@@ -591,6 +591,8 @@ function remoteData(data, delay) {
 
 export default {
   name: 'home',
+
+
   data() {
     return {
       innerClick:false,

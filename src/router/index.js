@@ -5,7 +5,9 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'history',//history
+
+
   routes: [
     {
       path: '/',
@@ -17,6 +19,8 @@ export default new Router({
       meta: {
          noPageAnimation: true,
       }
+
+
     },
     {
       path: '/category',
@@ -26,7 +30,9 @@ export default new Router({
       },
       meta: {
          noPageAnimation: true,
-      }
+      },
+
+
     },
     {
       path: '/profile', //个人中心
