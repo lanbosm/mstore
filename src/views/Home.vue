@@ -721,19 +721,19 @@ export default {
                   banner: [{
                       title: '石头门',
                       desc: '石头门2',
-                      url: '/static/images/test.jpg',
+                      url: '//static.dorodoro-lab.com/static/images/test.jpg',
                       price:300
                     },
                     {
                       title: '艾瑞莉娅',
                       desc: '刀锋意识刀锋意识',
-                      url: '/static/images/arelia.jpg',
+                      url: '//static.dorodoro-lab.com/static/images/arelia.jpg',
                       price:400
                     },
                     {
                       title: '妹子欣赏',
                       desc: '这是一个妹子妹子的图片',
-                      url: '/static/images/meizi.jpg',
+                      url: '//static.dorodoro-lab.com/static/images/meizi.jpg',
                       price:500
                     }
                   ],
@@ -778,19 +778,19 @@ export default {
                   banner: [{
                       title: '阿狸',
                       desc: '九尾妖狐',
-                      url: './static/images/ali.jpg',
+                      url: '//static.dorodoro-lab.com/static/images/ali.jpg',
                       price:300
                     },
                     {
                       title: '艾瑞莉娅',
                       desc: '刀锋意识刀锋意识',
-                      url: './static/images/arelia.jpg',
+                      url: '//static.dorodoro-lab.com/static/images/arelia.jpg',
                       price:400
                     },
                     {
                       title: '妹子欣赏',
                       desc: '这是一个妹子妹子的图片',
-                      url: './static/images/meizi.jpg',
+                      url: '//static.dorodoro-lab.com/static/images/meizi.jpg',
                       price:500
                     }
                   ],

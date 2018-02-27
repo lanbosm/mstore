@@ -100,7 +100,7 @@
         cartList:[],
         userName:'悟空',
         workNum:'1254232',
-        portrait:'/static/images/test.jpg',
+        portrait:'//static.dorodoro-lab.com/static/images/test.jpg',
         part:'市场部',
         point:100,
         coupons:10,

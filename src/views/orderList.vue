@@ -41,7 +41,7 @@
                     </div>
                     <div class="item_li_content mg-t-20">
                         <div class="item_img" :style="{backgroundImage:'url('+item.orderImg+')'}">
-                            <!-- <img src="/static/images/test.jpg" alt=""> -->
+                            <!-- <img src="//static.dorodoro-lab.com/static/images/test.jpg" alt=""> -->
                         </div>
                         <div class="item_discribe mg-l-30">
                              <p class="font-16 item_name mg-t-10">{{item.orderName}}</p>
@@ -224,42 +224,42 @@ export default {
     fetchData(){
        var list0={
          data:[
-           {sn:'845643513556464534351',status:'等待收货',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'已送达',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'收货成功',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'已过期',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'等待收货',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'等待收货',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'已送达',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'收货成功',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'已过期',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'等待收货',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
          ],
          moredata:[]
        };
        var list1={
          data:[
-           {sn:'845643513556464534351',status:'待付款',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'待付款',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'待付款',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'待付款',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'待付款',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待付款',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待付款',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待付款',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待付款',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待付款',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
          ],
          moredata:[]
        };
        var list2={
          data:[
-           {sn:'845643513556464534351',status:'待发货',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'待发货',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待发货',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待发货',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
          ],
          moredata:[]
        };
        var list3={
          data:[
-           {sn:'845643513556464534351',status:'待收货',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'待收货',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待收货',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待收货',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
          ],
          moredata:[]
        };
        var list4={
          data:[
-           {sn:'845643513556464534351',status:'待评价',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
-           {sn:'845643513556464534351',status:'待评价',orderImg:'/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待评价',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
+           {sn:'845643513556464534351',status:'待评价',orderImg:'//static.dorodoro-lab.com/static/images/test.jpg',orderName:'毛衣',spec:'一件（XL码）*2',orderPrice:'300'},
          ],
          moredata:[]
        };

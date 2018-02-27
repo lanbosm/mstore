@@ -75,7 +75,8 @@ export default {
             //主动不要动画
             if (to.meta.noPageAnimation == from.meta.noPageAnimation==true) {
                 this.transitionName='';
-                return false;
+                this.historyRoutes=[];
+
             }else if(isSeries(to.path,from.path)){ //同系列
                 const toDepth = to.path.split('/').length;
                 const fromDepth = from.path.split('/').length;
@@ -84,8 +85,10 @@ export default {
                     this.transitionName='page-pop';
                     this.historyRoutes.pop();
                 }else{
+                  if (from.name != null) {
                     this.transitionName='page-push';
                     this.historyRoutes.push(from.name);
+                  }
                 }
             }else { //不同系列
 

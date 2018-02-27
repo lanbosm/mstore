@@ -196,7 +196,7 @@ export default new Router({
     },
     {
       path: '/detail/:id', //详情
-      name: 'user',
+      name: 'detail',
       component(resolve) {
         require(['@/views/Detail'], resolve);
       }
