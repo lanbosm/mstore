@@ -70,12 +70,14 @@ export default {
 			$route(to, from) {
 
           //noPageAnimation
-
+            if(this.historyRoutes.length==0){
+              this.historyRoutes=[];
+            }
 
             //主动不要动画
             if (to.meta.noPageAnimation == from.meta.noPageAnimation==true) {
+
                 this.transitionName='';
-                this.historyRoutes=[];
 
             }else if(isSeries(to.path,from.path)){ //同系列
                 const toDepth = to.path.split('/').length;
