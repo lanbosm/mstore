@@ -54,3 +54,8 @@ export function currency (value, currency, decimals) {
     _int.slice(i).replace(digitsRE, '$1,') +
     _float
 }
+
+export function sex (sex) {
+
+    return sex==1?"男":"女";
+}

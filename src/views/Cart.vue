@@ -18,9 +18,9 @@
                   </div>
                   <div class="item-list">
 
-                          <div class="item" v-for="item in cart.brand.items" >
+                          <div class="item" v-for="(item,index) in cart.brand.items" >
                               <div class="item-bg">
-                                    <div class="item-del-btn" @click="handleDelete($event)">
+                                    <div class="item-del-btn" @click="handleDelete(cart.brand.items,index)">
                                         删除
                                     </div>
                               </div>
@@ -78,8 +78,6 @@
   .cart-main{
     flex: 1;
     width: 750px;
-
-    height: 500px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -302,7 +300,7 @@ export default {
             id:1,
             name:"阿迪达斯",
             items:[
-              {id:1,name:"靴子",desc:"这是描述这是描述这",spec:"黑色 1双",price:"300",quantity:1,image:'//static.dorodoro-lab.com/static/images/prod1.jpg'}
+              {id:1,name:"靴子",desc:"这是描述这是描述这",spec:"黑色 1双",price:"300",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod1.jpg'}
             ]
           }
         },
@@ -311,16 +309,16 @@ export default {
               id:2,
               name:"优衣库",
               items:[
-                {id:2,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:2,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:2,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:3,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:3,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/mt2.jpg'},
-                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/mt2.jpg'},
-                {id:4,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/prod4.jpg'},
-                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//static.dorodoro-lab.com/static/images/prod4.jpg'}
+                {id:2,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+                {id:2,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+                {id:2,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+                {id:3,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+                {id:3,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
+                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
+                {id:4,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'},
+                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'}
               ]
           }
         }
@@ -376,9 +374,12 @@ export default {
         alert('编辑');
 
     },
-    handleDelete(ss){
-        console.log(ss);
-        alert('删除');
+    handleDelete(items,index){
+       // console.log(index);
+        //items.splice(index,1);
+      var a=items
+        a.splice(index,1);
+       // alert('删除');
     },
     selectItem(item){
           console.log(item);

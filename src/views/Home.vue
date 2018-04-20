@@ -11,7 +11,7 @@
             <data-empty v-else></data-empty>
         </div>
         <!-- home-list start -->
-        <div class="home-list">
+        <div class="home-list" >
 
           <div class="home-banner">
 
@@ -721,25 +721,25 @@ export default {
                   banner: [{
                       title: '石头门',
                       desc: '石头门2',
-                      url: '//static.dorodoro-lab.com/static/images/test.jpg',
+                      url: '//origin.dorodoro-lab.com/static/images/test.jpg',
                       price:300
                     },
                     {
                       title: '艾瑞莉娅',
                       desc: '刀锋意识刀锋意识',
-                      url: '//static.dorodoro-lab.com/static/images/arelia.jpg',
+                      url: '//origin.dorodoro-lab.com/static/images/arelia.jpg',
                       price:400
                     },
                     {
                       title: '妹子欣赏',
                       desc: '这是一个妹子妹子的图片',
-                      url: '//static.dorodoro-lab.com/static/images/meizi.jpg',
+                      url: '//origin.dorodoro-lab.com/static/images/meizi.jpg',
                       price:500
                     }
                   ],
                   homesession1:[
                       {
-                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
+                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -748,7 +748,7 @@ export default {
                   ],
                   homesession2:[
                       {
-                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
+                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -757,7 +757,7 @@ export default {
                   ],
                   homesession3:[
                       {
-                        url:'//static.dorodoro-lab.com/static/images/adidds.jpg',
+                        url:'//origin.dorodoro-lab.com/static/images/adidds.jpg',
                         pid:18
                       }
                   ]
@@ -778,25 +778,25 @@ export default {
                   banner: [{
                       title: '阿狸',
                       desc: '九尾妖狐',
-                      url: '//static.dorodoro-lab.com/static/images/ali.jpg',
+                      url: '//origin.dorodoro-lab.com/static/images/ali.jpg',
                       price:300
                     },
                     {
                       title: '艾瑞莉娅',
                       desc: '刀锋意识刀锋意识',
-                      url: '//static.dorodoro-lab.com/static/images/arelia.jpg',
+                      url: '//origin.dorodoro-lab.com/static/images/arelia.jpg',
                       price:400
                     },
                     {
                       title: '妹子欣赏',
                       desc: '这是一个妹子妹子的图片',
-                      url: '//static.dorodoro-lab.com/static/images/meizi.jpg',
+                      url: '//origin.dorodoro-lab.com/static/images/meizi.jpg',
                       price:500
                     }
                   ],
                   homesession1:[
                       {
-                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
+                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -805,7 +805,7 @@ export default {
                   ],
                   homesession2:[
                       {
-                        url:'//static.dorodoro-lab.com/static/images/12818suud.jpg',
+                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
                         pingpai:'商品品牌',
                         price:'99',
                         desc:"商品品描述",
@@ -814,7 +814,7 @@ export default {
                   ],
                   homesession3:[
                       {
-                        url:'//static.dorodoro-lab.com/static/images/adidds.jpg',
+                        url:'//origin.dorodoro-lab.com/static/images/adidds.jpg',
                         pid:18
                       }
                   ]
@@ -829,7 +829,7 @@ export default {
 
 
             newlist.moredata.push({
-                url:this.categoryIndex==0?'//static.dorodoro-lab.com/static/images/mt1.jpg':'//static.dorodoro-lab.com/static/images/mt2.jpg',
+                url:this.categoryIndex==0?'//origin.dorodoro-lab.com/static/images/mt1.jpg':'//origin.dorodoro-lab.com/static/images/mt2.jpg',
                 price:1000*i,
                 pingpai:'商品品牌',
                 desc:'商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2'

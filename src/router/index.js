@@ -10,6 +10,16 @@ export default new Router({
 
   routes: [
     {
+      path:'/login',  //微信登录
+      name:'login',
+      component(resolve){
+        require(['@/views/login'],resolve);
+      },
+      meta: {
+        noPageAnimation: true, auth:false
+      }
+    },
+    {
       path: '/',
       alias:['/home','/index.html'],
       name: 'home',
@@ -17,7 +27,7 @@ export default new Router({
         require(['@/views/Home'], resolve);
       },
       meta: {
-         noPageAnimation: true,
+         noPageAnimation: true, auth:false
       }
 
 
@@ -29,7 +39,7 @@ export default new Router({
         require(['@/views/Category'], resolve);
       },
       meta: {
-         noPageAnimation: true,
+         noPageAnimation: true, auth:false
       },
 
 
@@ -41,7 +51,7 @@ export default new Router({
         require(['@/views/Profile'], resolve);
       },
       meta: {
-        noPageAnimation: true,
+        noPageAnimation: true
       }
     },
     {
@@ -191,7 +201,7 @@ export default new Router({
         require(['@/views/Cart'], resolve);
       },
       meta: {
-         noPageAnimation: true,
+         noPageAnimation: true,auth:false
       }
     },
     {

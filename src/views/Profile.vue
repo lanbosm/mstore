@@ -5,13 +5,14 @@
       <simple-scroll   class="scroll-list"  direction="vertical">
          <div class="item_content">
             <div class="item_left">
-              <img :src="portrait">
+              <img :src="userInfo.headimgurl">
             </div>
             <div class="item_right">
-                <p class="item_name">{{userName}}</p>
-                <p>工号:{{workNum}}</p>
-                <p>{{part}}</p>
+                <p class="item_name">昵称 {{userInfo.nickname}}</p>
+                <p>性别 {{userInfo.sex | sex}}</p>
+                <p>城市 {{userInfo.city}}</p>
             </div>
+           <mt-button class="exit" @click="handleExit()">安全退出</mt-button>
          </div>
         <div class="item_list flex-row flex">
           <div @click="pagePush('/point')">
@@ -39,7 +40,7 @@
         <div class="item_order flex flex-row" @click="pagePush('/address')">
           <div class="item_order_left">
             <p class="font-16 order">地址信息</p>
-            <p class="gray order_describe">{{name}} {{phone}}</p>
+            <p class="gray order_describe"></p>
           </div>
           <div class="item_order_right gray">
             {{addressDiscribe}} >
@@ -69,7 +70,16 @@
   .proile-main{
     margin-top: $gutter;
     flex: 1;
-    background-color: fff;
+    background-color: #ffffff;
+  }
+  .exit{
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 12px;
+    background-color: #55b5ef;
+    background-image: linear-gradient(-180deg, #66d9ef 0%, #57a1ef 90%);
+    color:#ffffff;
   }
   .item_content{height: 160px;overflow: hidden;width: 750px;}
   .item_left{width: 120px;height: 120px;overflow: hidden;border-radius: 120px;margin-left: 40px;margin-top: 20px;float: left}
@@ -90,6 +100,7 @@
 </style>
 <script>
 
+  import {LOGIN_SESSION_KEY, LOGIN_RETURN_KEY,USER_INFO_KEY } from '@/var';
   import { mapState,mapGetters ,mapMutations, mapActions } from 'vuex';
 
   export default {
@@ -98,67 +109,46 @@
       return {
         loading:true,
         cartList:[],
-        userName:'悟空',
-        workNum:'1254232',
-        portrait:'//static.dorodoro-lab.com/static/images/test.jpg',
         part:'市场部',
         point:100,
         coupons:10,
         balance:10,
-        name:'李小白',
         phone:15253545122,
         addressDiscribe:'公司地址'
       }
     },
     computed: {
-      ...mapState('cart', {
-        list:state=>state.list
-      }),
-      ...mapGetters('cart', ['totalPrice'])
+      ...mapGetters(['userInfo']),
     },
     created(){
 
-      this.getCartList().then(res=>{
-
-        this.loading=false;
-        console.log(this.list);
-        console.log(this.totalPrice);
-        //
-      })
+      //console.log(this.userInfo);
+      // this.getCartList().then(res=>{
+      //
+      //   this.loading=false;
+      //   console.log(this.list);
+      //   console.log(this.totalPrice);
+      //   //
+      // })
     },
     methods:{
-      ...mapActions('cart', ['getCartList']),
+      ...mapMutations(['resetUserInfo']),
       handleDetail(id){
 
         this.pagePush({ path: `/detail/${id}`});
 
       },
-      addList(){
+      handleExit(){
 
-        this.$store.dispatch('addList',this.value).then(res=>{
-
-          console.log(this.$store.state);
-          this.$messagebox.alert(res.msg);
-        }).catch(res=>{
-
-          this.$messagebox.alert('出错了');
-        })
-
-      },
-
-      nana(){
-
-
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve("es8");
-          }, 2000);
+        this.$messagebox({
+          title: '提示',
+          message: '确定退出?',
+          showCancelButton: true
+        }).then(_=>{
+            this.$cookies.remove(LOGIN_SESSION_KEY);
+            this.resetUserInfo();
+            location.replace(location.href);
         });
-
-      },
-      handleClick(){
-
-        this.back('/login');
       },
       handleClick2(){
 

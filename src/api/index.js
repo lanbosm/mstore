@@ -6,7 +6,8 @@ const baseURL = (process.env.NODE_ENV === 'production')
     ? 'http://dorodoro-lab.com:8088/mockjsdata/2/'
     :'http://dorodoro-lab.com:8088/mockjsdata/2/';
 
-
+const authURL="http://ngrok.dorodoro-lab.com";
+//const authUrl="http://localhost:3002";
 let platform='web';
 // settings
 
@@ -14,6 +15,9 @@ axios.defaults.timeout = 5000
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'  //post是表单提交
 
+
+//axios.defaults.baseURL = 'http://ngrok.dorodoro-lab.com';
+axios.defaults.withCredentials=true;
 axios.defaults.baseURL = baseURL;
 
 // 添加请求拦截器
@@ -89,9 +93,18 @@ export function httpPost (url, params = {}) {
 }
 
 
-
 export default {
+  //微信授权
+  wxLogin(){
+    var scope='snsapi_userinfo';
+    var backUrl=encodeURIComponent(location.href);
+    return `${authURL}/cgi-bin/wechat/login?scope=${scope}&backUrl=${backUrl}`;
 
+  },
+  //微信获取用户信息
+  getUserInfo(){
+     return httpGet(`${authURL}/cgi-bin/wechat/oauth2`);
+  },
   // 商品详情展示信息
   getShopDetail (id) {
 

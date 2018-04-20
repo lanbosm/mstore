@@ -25,7 +25,7 @@ export default {
 <style scoped>
 
   .dataEmpty{
-     background:url('//static.dorodoro-lab.com/static/images/dataempty.jpg') repeat-y ;
+     background:url('//origin.dorodoro-lab.com/static/images/dataempty.jpg') repeat-y ;
      background-size: 100%;
      background-position: 50% 50%;
   }

@@ -77,10 +77,10 @@
 
     <div class="detail-footer flex flex-row">
       <div class="detail-footer-item favorite">
-        <i class="iconfont icon-xing" :class="{'unfavorite':!favorited,'hasfavorite':favorited}" @click="toFavorite()"></i>
+        <i class="iconfont icon-xing" :class="[favorited?'hasfavorite':'unfavorite']" @click="toFavorite()"></i>
         <span class="footer-txt">关注</span>
       </div>
-      <div class="detail-footer-item cart" @click="pagePush('/cart')">
+      <div class="detail-footer-item cart"  @click="pagePush('/cart')">
         <i class="iconfont icon-gouwuche"></i>
         <span class="footer-txt" >购物车</span>
       </div>
@@ -348,6 +348,9 @@
 
     },
     methods:{
+      sss(aa){
+          return aa;
+      },
       fetchData(){
 
         this.$store.dispatch('getDetail',this.id).then(res=>{

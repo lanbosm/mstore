@@ -314,7 +314,7 @@ export default {
 
             var id=this.getRandomNum(1,4);
             newlist.moredata.push({
-                url:this.categoryIndex==1?'//static.dorodoro-lab.com/static/images/mt1.jpg':'//static.dorodoro-lab.com/static/images/mt2.jpg',
+                url:this.categoryIndex==1?'//origin.dorodoro-lab.com/static/images/mt1.jpg':'//origin.dorodoro-lab.com/static/images/mt2.jpg',
                 price:1000*i,
                 pingpai:'商品品牌',
                 desc:'商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2',

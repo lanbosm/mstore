@@ -9,18 +9,19 @@ import Mint from './mintUi';
 import store from './store'
 import * as filters from './filters'
 
-//import 'lib-flexible'
+
 
 //主css样式
 import './scss/style.scss';
 
 //导入阿狸
-import util from './util';
+import util from '@/util';
 
 import { sync } from 'vuex-router-sync'
 
 
 import BScroll from 'better-scroll'
+import VueCookies from 'vue-cookies'
 
 import vueTouch from "./packages/touch"
 
@@ -47,7 +48,7 @@ Vue.mixin(mixins);
 
 //滚动
 Vue.prototype.$BScroll=BScroll;
-
+Vue.prototype.$cookies=VueCookies;
 
 
 
@@ -58,51 +59,20 @@ Vue.config.productionTip = false;
 
 // Vue.component('fallback', resolve => resolve(require('./components/fallback')));
 
-//var lastHistory=""
-// router.beforeEach(({meta, path}, from, next)=> {
-//
-//
-//     if(path==lastHistory){
-//         console.log('back');
-//        //this.$root.$refs.app.jumpAnime=this.$root.$refs.app.backway
-//     }else{
-//
-//           console.log('front');
-//
-//     }
-//
-//       lastHistory=path;
-//
-//   //this.$root.$refs.app.jumpAnime=    this.$root.$refs.app.backway
-//   //console.log(222);
-//   // const {auth = true} =  meta      // meta代表的是to中的meta对象，path代表的是to中的path对象  
-//   //
-//   // var accessToken = window.localStorage.getItem("accessToken");
-//   // if(accessToken) {
-//   //   store.state.login = accessToken;
-//   // }
-//   // var isLogin = Boolean(store.state.login)    // true用户已登录， false用户未登录　
-//   //
-//   //
-//   // if ( path == '/login' || path == '/' ) {            //添加背景
-//   //
-//   //   document.body.classList.remove('bg-gray');
-//   // }else{
-//   //   document.body.classList.add('bg-gray');
-//   // }
-//   //
-//   //
-//   // if (auth  &&  !isLogin  &&  path !== '/login') {   // auth 代表需要通过用户身份验证，默认为true，代表需要被验证， false为不用检验
-//   //
-//   //   next({ path: '/login' })   //  跳转到login页面  
-//   // }else {
-//   //   store.state.currentPage.history=path;
-//   //   console.log(store.state.currentPage.history);
-//   //   next()   // 进行下一个钩子函数  
-//   // }
-//
-//   next()   // 进行下一个钩子函数  
-// })
+
+router.beforeEach(({meta, path,fullPath}, from, next)=> {
+
+   const {auth = true} =  meta      // meta代表的是to中的meta对象，path代表的是to中的path对象  
+   var isLogin=Boolean(Vue.prototype.$cookies.get('wechatkey'));;
+  //https://router.vuejs.org/zh-cn/advanced/meta.html
+  if (auth  &&  !isLogin  &&  path !== '/login') {
+     location.replace('/login?redirect='+encodeURIComponent(fullPath));
+     //next({ path: '/login', query: { redirect: fullPath }})   //  跳转到login页面  
+  }else {
+    next()   // 进行下一个钩子函数  
+   }
+
+})
 
 
 

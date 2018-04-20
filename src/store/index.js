@@ -1,39 +1,58 @@
  import Vue from 'vue'
  import Vuex from 'vuex'
 
-// import * as actions from './actions'
-// import * as mutations from './mutations'
-
+import auth from './modules/auth'
 import cart from './modules/cart'
+
 import address from './modules/address'
 import api from '../api/index.js'
 // Vuex is auto installed on the web
 // if (WXEnvironment.platform !== 'Web') {
 //   Vue.use(Vuex)
 // }
+import {USER_INFO_KEY} from '@/var.js'
+import util from '@/util';
 
-
- function test(delay){
-   // 20ms 后去 resolve
-
-   var delay=delay||300;
-   var msg={msg:"添加成功"};
-   return new Promise((resolve,reject) => {
-     setTimeout(()=>{ resolve(msg); console.log("getlist"); },delay);
-   });
- }
 
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state:{
-    lanbo:"ssss",
-    list:[]
+
+    list:[],
+    userInfo:{},
+
+  },
+  getters: {
+    userInfo: state => {
+      var info;
+      if(!util.isEmptyObject(state.userInfo)){
+          info = state.userInfo;
+      }else if(util.getStorage(USER_INFO_KEY)){
+          info = util.getStorage(USER_INFO_KEY);
+      }else{
+          info={
+              "nickname":"匿名用户"
+          }
+      }
+      return info
+    }
   },
   mutations:{
-    saveList(state,data){
 
+    saveList(state,data){
         state.list=data;
+    },
+    setUserInfo(state,data){
+         //内存存一份
+         state.userInfo=data;
+         //本地存储也映射份
+         util.setStorage(USER_INFO_KEY,state.userInfo);
+    },
+    resetUserInfo(state,data){
+          state.userInfo={};
+          util.rmStorage(USER_INFO_KEY);
     }
+
 
   },
   actions:{
@@ -83,7 +102,7 @@ const store = new Vuex.Store({
 
        commit("saveList",value);
 
-       return test(3000);
+       return u.testPromise(3000,{msg:'添加成功'});
      },
 
 
@@ -91,6 +110,7 @@ const store = new Vuex.Store({
 
   },
   modules: {
+    auth,
     cart,
     address
     // address: {

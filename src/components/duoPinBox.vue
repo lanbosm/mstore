@@ -49,7 +49,7 @@
     height: 335px;
     border-radius: 4px;
     background-size: cover;
-    background-image: url('http://static.dorodoro-lab.com/static/images/12818suud.jpg');
+    background-image: url('http://origin.dorodoro-lab.com/static/images/12818suud.jpg');
     background-repeat: no-repeat;
   }
   .bar{

@@ -10,7 +10,7 @@
                              <span class="list-checkbox"><input type="checkbox" /> <i></i> </span>
                      </div>
                      <div class="item_right mg-l-30">
-                           <div class="item_img" style="background-image:url('//static.dorodoro-lab.com/static/images/test.jpg')"></div>
+                           <div class="item_img" style="background-image:url('//origin.dorodoro-lab.com/static/images/test.jpg')"></div>
                            <div class="item_discribe mg-l-30">
                                 <p class="font-16 item_name mg-t-10">来自东方的法术T恤 冬暖…</p>
                                 <p class="font-14 item_num mg-t-20">规格：一件（XL码）*2</p>

@@ -68,7 +68,6 @@ export default {
 			 * Don't Need Transition Effect
 			 * ========================================= */
 			$route(to, from) {
-
           //noPageAnimation
             if(this.historyRoutes.length==0){
               this.historyRoutes=[];
@@ -157,18 +156,24 @@ export default {
   }
 }
 
-  #app{
+#app{
     position: absolute;
     left:0;
     right:0;
     top:0;
-    bottom: 0;
+    bottom:0;
+    left:env(safe-area-inset-left);
+    right:env(safe-area-inset-right);
+    top:env(safe-area-inset-top);
+    bottom: env(safe-area-inset-bottom);
     overflow: hidden;
+
   }
   .animated{
     position: absolute;
     width: 100%;
   }
+
 
 
 </style>
