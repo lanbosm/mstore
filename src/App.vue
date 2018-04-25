@@ -108,6 +108,7 @@ export default {
       }
 	},
   mounted(){
+
       //本地读取
       if(window.localStorage.getItem('historyRoutes')){
           this.historyRoutes=JSON.parse(window.localStorage.getItem('historyRoutes'));

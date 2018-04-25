@@ -2,8 +2,12 @@
 
 module.exports = {
   "plugins": {
+    "postcss-import": {},
+    "postcss-url": {},
     // to edit target browsers: use "browserlist" field in package.json
-    "autoprefixer": {},
+    "autoprefixer": {
+      browsers: ['iOS 7', 'Android >= 4.3' ,'QQAndroid 5'],
+    },
     "postcss-pxtorem-plus":{
       rootValue: 40,
       unitPrecision: 6,
@@ -12,6 +16,12 @@ module.exports = {
       replace: true,
       mediaQuery: false,
       minPixelValue: 0
+    },
+    "cssnano": {
+      preset: "advanced",
+      autoprefixer: false,
     }
+
+
   }
 }

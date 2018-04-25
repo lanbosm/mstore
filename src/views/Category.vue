@@ -56,7 +56,6 @@
 
   }
 
-
   .category-tab-top{
 
       width: 750px;
@@ -105,8 +104,6 @@
 
       }
   }
-
-
 
   .category-tab-list{
       width: 750px;
@@ -209,22 +206,22 @@
 </style>
 <script>
 
-function remoteData(data, delay) {
+function remoteData (data, delay) {
   // 20ms 后去 resolve
-  var delay = delay || 300;
+  var delay = delay || 300
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(data);
-    }, delay);
-  });
+      resolve(data)
+    }, delay)
+  })
 }
 
 export default {
   name: 'category',
   data () {
     return {
-      categoryIndex:1,
-      moredata:[],
+      categoryIndex: 1,
+      moredata: [],
       scrollbar: false,
       scrollbarFade: true,
       pullDownRefresh: true,
@@ -232,30 +229,22 @@ export default {
       pullDownRefreshStop: 40,
       pullUpLoad: true,
       pullUpLoadThreshold: 90,
-      pageMore:0,   //更多部分的数据
+      pageMore: 0 // 更多部分的数据
     }
   },
-  beforeRouteUpdate(){
-
-
-    const toDepth = to.path.split('/').length
-    const fromDepth = from.path.split('/').length
-    this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-
-  },
   computed: {
-    scrollbarObj: function() {
+    scrollbarObj: function () {
       return this.scrollbar ? {
         fade: this.scrollbarFade
       } : false
     },
-    pullDownRefreshObj: function() {
+    pullDownRefreshObj: function () {
       return this.pullDownRefresh ? {
         threshold: parseInt(this.pullDownRefreshThreshold),
         stop: parseInt(this.pullDownRefreshStop)
       } : false
     },
-    pullUpLoadObj: function() {
+    pullUpLoadObj: function () {
       return this.pullUpLoad ? {
         threshold: parseInt(this.pullUpLoadThreshold),
         txt: {
@@ -265,111 +254,90 @@ export default {
       } : false
     }
   },
-  created(){
-
-
-        this.fetchData().then(res=>{
-            this.moredata=res.moredata;
-        });
-
+  created () {
+    this.fetchData().then(res => {
+      this.moredata = res.moredata
+    })
   },
   watch: {
-    categoryIndex(){
+    categoryIndex () {
+      // this.$refs.scroll.scrollTo(0, 40, 600);
 
-      //this.$refs.scroll.scrollTo(0, 40, 600);
+      this.fetchData().then(res => {
+        this.moredata = res.moredata
+        this.pageMore = 0
 
-      this.fetchData().then(res=>{
-          this.moredata=res.moredata;
-          this.pageMore=0;
-
-
-          setTimeout(_=>{
-            this.$refs.scroll.forceUpdate();
-          },600)
-
-      });
+        setTimeout(_ => {
+          this.$refs.scroll.forceUpdate()
+        }, 600)
+      })
     }
   },
-  methods:{
-    handleSearch(){
-        alert(333);
+  methods: {
+    handleSearch () {
+      alert(333)
     },
-    handleDetail(id){
-
-        this.pagePush({ path: `/detail/${id}`});
-
+    handleDetail (id) {
+      alert(333)
+      this.pagePush({ path: `/detail/${id}`})
     },
-    fetchData(){
+    fetchData () {
+      var newlist = {
+        moredata: []
+      }
 
+      let i = 0
+      while (i < 8) { // 模拟8条数据
+        var id = this.getRandomNum(1, 4)
+        newlist.moredata.push({
+          url: this.categoryIndex == 1 ? '//origin.dorodoro-lab.com/static/images/mt1.jpg' : '//origin.dorodoro-lab.com/static/images/mt2.jpg',
+          price: 1000 * i,
+          pingpai: '商品品牌',
+          desc: '商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2',
+          id: id
 
+        })
+        i++
+      }
 
-          var newlist = {
-            moredata:[]
-          };
+      this.pageMore++
+      // 假设有3页数据
+      if (this.pageMore > 3) { newlist.moredata = [] }
 
-
-
-          let i=0;
-          while(i<8){ //模拟8条数据
-
-            var id=this.getRandomNum(1,4);
-            newlist.moredata.push({
-                url:this.categoryIndex==1?'//origin.dorodoro-lab.com/static/images/mt1.jpg':'//origin.dorodoro-lab.com/static/images/mt2.jpg',
-                price:1000*i,
-                pingpai:'商品品牌',
-                desc:'商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2',
-                id:id
-
-            });
-            i++;
-          }
-
-          this.pageMore++;
-          //假设有3页数据
-          if(this.pageMore>3){newlist.moredata=[];}
-
-          return remoteData(newlist, 600);
-
+      return remoteData(newlist, 600)
     },
-    handleSearch(val){
-      alert(val);
+    handleSearch (val) {
+      alert(val)
     },
-    onPullingDown() {
-
-      this.pageMore=0;
-
+    onPullingDown () {
+      this.pageMore = 0
 
       this.fetchData().then((res) => {
         if (res) {
-          this.moredata=res.moredata;
-          this.$refs.scroll.forceUpdate(true);
+          this.moredata = res.moredata
+          this.$refs.scroll.forceUpdate(true)
         } else {
           this.$refs.scroll.forceUpdate()
         }
       })
     },
 
-    onPullingUp() {
-
+    onPullingUp () {
       this.fetchData().then((res) => {
-
         if (res.moredata.length > 0) {
-          this.moredata  = [...res.moredata,...this.moredata];
+          this.moredata = [...res.moredata, ...this.moredata]
 
-          console.log(this.moredata.length);
-          this.$nextTick(_=>{
-            this.$refs.scroll.forceUpdate(true);
-          });
+          console.log(this.moredata.length)
+          this.$nextTick(_ => {
+            this.$refs.scroll.forceUpdate(true)
+          })
         } else {
-          this.$nextTick(_=>{
+          this.$nextTick(_ => {
             this.$refs.scroll.forceUpdate()
-          });
+          })
         }
       })
-
     }
-
-
 
   }
 }

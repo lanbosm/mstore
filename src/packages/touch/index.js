@@ -3,7 +3,11 @@ var util = require("./util.js")
 
 
 var vueFingerConstructor = function(el, options) {
-    this.el = el
+    this.el = el;
+    this.data=options.data;
+    this.events=options.events
+
+
     // add touch event
     this.startCallback = this.start.bind(this)
     this.moveCallback = this.move.bind(this)
@@ -17,17 +21,22 @@ var vueFingerConstructor = function(el, options) {
     this.el.addEventListener("touchcancel", this.cancelCallback, false)
 
     // init
-    this.x1 = this.x2 = this.y1 = this.y2 = null
-    this.swipe = options.swipe
-    this.swipeMove = options.swipeMove
-    this.pintch = options.pintch
-    this.tap = options.tap
-    this.doubleTap = options.doubleTap
+    this.x1 = this.x2 = this.y1 = this.y2 = null;
+
+    this.swipeStart = options.eventName=='swipe'&& this.events.touchStart?this.events.touchStart:null;
+    this.swipeMove = options.eventName=='swipe'&& this.events.touchMove?this.events.touchMove:null;
+    this.swipeEnd = options.eventName=='swipe'&& this.events.touchEnd?this.events.touchEnd:null;
+    this.pintch = options.eventName=='pintch'?this.events.pintch:null;
+    this.tap = options.eventName=='tap'?this.events.tap:null
+    this.doubleTap = options.eventName=='doubleTap'?this.events.doubleTap:null
     this.pintchDistance = 400
     this.tapTimeout
     this.mutiTouchWating = true
     this.swipeMoveTimeout
     this.doubleTapTimeout
+
+
+    this.__isDragging=false;
     // scale
 }
 
@@ -37,12 +46,11 @@ vueFingerConstructor.prototype = {
         //console.log("start")
         // reset
         this.x1 = this.x2 = this.y1 = this.y2 = null
-
        // e.preventDefault()
         if (!e.touches) return
         this.x1 = e.touches[0].pageX
         this.y1 = e.touches[0].pageY
-        if(e.touches.length > 1){
+        if(e.touches.length > 1){   //第2点距离
             this.mutiTouchWating = false
             this.p1 = e.touches[1].pageX
             this.q1 = e.touches[1].pageY
@@ -64,14 +72,15 @@ vueFingerConstructor.prototype = {
             }else {
                 this.tapTimeout = setTimeout(function(){
                     if (!self.doubleTapTimeout) {
-                        console.log(self.tap)
                         self.tap()
                     }
                 },200)
             }
         }
 
-        this.mutiTouchWating = true
+
+
+        this.mutiTouchWating = true  //等待结算触摸点
         setTimeout(function(){
             self.mutiTouchWating = false
         },40)
@@ -86,9 +95,16 @@ vueFingerConstructor.prototype = {
                 },100)
             }
         }
+        if (this.swipeStart) this.swipeStart(e,this.el,this.data);
+
+        this.__isDragging=!this.tap || !this.doubleTap;
     },
     move: function(e) {
+
         e.preventDefault()
+        if (!this.__isDragging) {
+          return ;
+        }
         if (this.tapTimeout) {
             clearTimeout(this.tapTimeout)
             this.tapTimeout = null
@@ -123,11 +139,10 @@ vueFingerConstructor.prototype = {
         }
 
 
-
         e.deltaX = currentX - this.previous.x1
         e.deltaY = currentY - this.previous.y1
 
-        this.previous = {
+        this.previous = {   //这个previous表示的上次的点
             x1: currentX,
             y1: currentY,
             p1: currentP,
@@ -137,20 +152,23 @@ vueFingerConstructor.prototype = {
         if ((currentX && Math.abs(e.distanceX) > 30) ||
             (currentY && Math.abs(e.distanceY) > 30)) {
         	e.direction = this._swipeDirection(this.x1, this.x2, this.y1, this.y2);
-        	if (this.swipeMove && (e.touches.length == 1) && !this.mutiTouchWating) this.swipeMove(e,this.el)
+        	if (this.swipeMove && (e.touches.length == 1) && !this.mutiTouchWating) this.swipeMove(e,this.el,this.data)
         }
     },
     end: function(e) {
-
-
       //  e.preventDefault()
+         if (this.__isDragging) {
+           this.__isDragging=true;
+         }
         if ((this.x2 && Math.abs(this.x1 - this.x2) > 30) ||
             (this.y2 && Math.abs(this.y1 - this.y2) > 30)) {
             e.direction = this._swipeDirection(this.x1, this.x2, this.y1, this.y2);
             e.distanceX = this.x2 - this.x1
             e.distanceY = this.y2 - this.y1
-            if (this.swipe) this.swipe(e)
+
+            if (this.swipeEnd) this.swipeEnd(e,this.el,this.data)
         }
+
     },
     cancel: function() {
 
@@ -174,14 +192,28 @@ vueFinger.install = function(Vue, options) {
 
     Vue.directive('finger', {
         bind: function(el, binding, vnode, oldVnode) {
-            if (!el.dataset.vfingerId) {
-                el.dataset.vfingerId = util.hashGen()
-                var options = {}
-                options[binding.arg] = binding.value
+            var options = {
+              eventName:binding.arg,
+              event:{},
+              data:{}
+            };
+
+
+            for(var i in binding.value){
+              if(i=='events') {
+                options[i] = binding.value[i];
+              }else{
+                options.data[i] = binding.value[i];
+              }
+            }
+
+            if (!el.dataset.vfingerId) { //新建hash key
+                el.dataset.vfingerId = util.hashGen();
                 var ins = new vueFingerConstructor(el, options)
                 instancesHash[el.dataset.vfingerId] = ins
-            }else {
-                instancesHash[el.dataset.vfingerId][binding.arg] = binding.value
+            }else { //赋值已有hash key
+                instancesHash[el.dataset.vfingerId].data=options.data;
+                instancesHash[el.dataset.vfingerId].events= options.events;
             }
         },
         unbind: function(el) {

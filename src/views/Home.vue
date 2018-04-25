@@ -16,7 +16,7 @@
           <div class="home-banner">
 
             <div class="banner-container" v-if='data.banner'>
-              <div class="banner-slide" :class="'banner-slide'+index" v-for="(item,index) in data.banner" :style="bannerStyle[index]" v-finger:swipe="changeIndex">
+              <div class="banner-slide" :class="'banner-slide'+index" v-for="(item,index) in data.banner" :style="bannerStyle[index]" v-finger:swipe=" {events:{touchEnd:changeIndex}}">
                 <img class="img-responsive" :src="item.url" />
               </div>
               <div class="banner-title" >
@@ -135,7 +135,6 @@
         </div>
         <!-- home-list end -->
 
-
     </scroll>
   </div>
 
@@ -162,8 +161,6 @@
   overflow: hidden;
   display: inline-block;
 
-
-
 }
 .tuijian {
   /*display: flex;*/
@@ -172,9 +169,6 @@
   height: 455px;
   position: relative;
   overflow: hidden;
-
-
-
 
 }
 .listView{
@@ -191,15 +185,11 @@
     top: 0;
 }
 
-
-
 .home-main {
     width: 750px;
     flex: 1;
     overflow: hidden;
     position: relative;
-
-
 
     .home-top {
         width: 750px;
@@ -572,31 +562,27 @@
       }
     }
 
-
 }
-
 
 </style>
 <script>
-function remoteData(data, delay) {
+function remoteData (data, delay) {
   // 20ms 后去 resolve
-  var delay = delay || 300;
+  var delay = delay || 300
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(data);
-    }, delay);
-  });
+      resolve(data)
+    }, delay)
+  })
 }
-
 
 export default {
   name: 'home',
 
-
-  data() {
+  data () {
     return {
-      innerClick:false,
-      firstAnime:true,
+      innerClick: false,
+      firstAnime: true,
       scrollbar: false,
       scrollbarFade: true,
       pullDownRefresh: true,
@@ -604,72 +590,69 @@ export default {
       pullDownRefreshStop: 40,
       pullUpLoad: true,
       pullUpLoadThreshold: 90,
-      pageMore:0,   //更多部分的数据
-      tabbarIndex:0,
-      bannerStyle: [ //banner1的样式
+      pageMore: 0, // 更多部分的数据
+      tabbarIndex: 0,
+      bannerStyle: [ // banner1的样式
         {
 
           transform: '  translate3D(0, 0px, 0px)',
-          transformOrigin: 'center center',
+          transformOrigin: 'center center'
 
         },
         {
 
           transform: '  translate3D(100px, 0px, -85px)',
-          transformOrigin: 'center center',
+          transformOrigin: 'center center'
 
         },
         {
 
           transform: ' translate3D(-100px, 0px, -85px) ',
-          transformOrigin: 'center center',
+          transformOrigin: 'center center'
         }
       ],
-      bannerStyleBack:null,
-      bannerIndex:0,
+      bannerStyleBack: null,
+      bannerIndex: 0,
       data: {},
-      moredata:[]
-
+      moredata: []
 
     }
-
   },
-  created() {
-      this.bannerStyleBack=this.bannerStyle;
-      this.fetchData().then(res=>{
-          this.data=res.data;
-      });
+  created () {
+    this.bannerStyleBack = this.bannerStyle
+    this.fetchData().then(res => {
+      this.data = res.data
+    })
   },
   watch: {
-    tabbarIndex(){
-      this.$refs.scroll.scrollTo(0, 40, 600);
+    tabbarIndex () {
+      this.$refs.scroll.scrollTo(0, 40, 600)
 
-      this.fetchData().then(res=>{
-          this.data=res.data;
-          this.pageMore=0;
-          this.moredata=[];
-          this.bannerIndex=0;
-          this.bannerStyle=this.bannerStyleBack;
-          setTimeout(_=>{
-            this.$refs.scroll.forceUpdate();
-          },600)
-
-      });
+      this.fetchData().then(res => {
+        this.data = res.data
+        this.pageMore = 0
+        this.moredata = []
+        this.bannerIndex = 0
+        this.bannerStyle = this.bannerStyleBack
+        setTimeout(_ => {
+          this.$refs.scroll.forceUpdate()
+        }, 600)
+      })
     }
   },
   computed: {
-    scrollbarObj: function() {
+    scrollbarObj: function () {
       return this.scrollbar ? {
         fade: this.scrollbarFade
       } : false
     },
-    pullDownRefreshObj: function() {
+    pullDownRefreshObj: function () {
       return this.pullDownRefresh ? {
         threshold: parseInt(this.pullDownRefreshThreshold),
         stop: parseInt(this.pullDownRefreshStop)
       } : false
     },
-    pullUpLoadObj: function() {
+    pullUpLoadObj: function () {
       return this.pullUpLoad ? {
         threshold: parseInt(this.pullUpLoadThreshold),
         txt: {
@@ -679,205 +662,188 @@ export default {
       } : false
     }
   },
-  mounted() {
-
-
-
-
-
-
+  mounted () {
 
   },
   methods: {
 
-    changeIndex(e) {
+    changeIndex (e) {
+      let clone = [...this.bannerStyle]
+      if (e.direction == 'Right') {
+        let move = clone.shift()
+        clone.push(move)
 
-      let clone = [...this.bannerStyle];
-      if(e.direction=='Right'){
-        let move = clone.shift();
-        clone.push(move);
-
-        this.bannerIndex=--this.bannerIndex<0?2:this.bannerIndex;
-
-      }else if(e.direction=='Left'){
-        let move = clone.pop();
-        clone.unshift(move);
-        this.bannerIndex=++this.bannerIndex>2?0:this.bannerIndex;
+        this.bannerIndex = --this.bannerIndex < 0 ? 2 : this.bannerIndex
+      } else if (e.direction == 'Left') {
+        let move = clone.pop()
+        clone.unshift(move)
+        this.bannerIndex = ++this.bannerIndex > 2 ? 0 : this.bannerIndex
       }
 
-
-      this.bannerStyle = clone;
-
+      this.bannerStyle = clone
     },
     goDiscount: function () {
 
     },
-    fetchData(){
-          var newlist1 = {
-            data:{
-                  topBanner:{
-                      url: 'http://img14.360buyimg.com/da/jfs/t7273/185/4202400137/183642/3aad4810/59f7e339N87ff1725.jpg'
-                  },
-                  banner: [{
-                      title: '石头门',
-                      desc: '石头门2',
-                      url: '//origin.dorodoro-lab.com/static/images/test.jpg',
-                      price:300
-                    },
-                    {
-                      title: '艾瑞莉娅',
-                      desc: '刀锋意识刀锋意识',
-                      url: '//origin.dorodoro-lab.com/static/images/arelia.jpg',
-                      price:400
-                    },
-                    {
-                      title: '妹子欣赏',
-                      desc: '这是一个妹子妹子的图片',
-                      url: '//origin.dorodoro-lab.com/static/images/meizi.jpg',
-                      price:500
-                    }
-                  ],
-                  homesession1:[
-                      {
-                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
-                        pingpai:'商品品牌',
-                        price:'99',
-                        desc:"商品品描述",
-                        buy:'1999'
-                      }
-                  ],
-                  homesession2:[
-                      {
-                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
-                        pingpai:'商品品牌',
-                        price:'99',
-                        desc:"商品品描述",
-                        buy:'1999'
-                      }
-                  ],
-                  homesession3:[
-                      {
-                        url:'//origin.dorodoro-lab.com/static/images/adidds.jpg',
-                        pid:18
-                      }
-                  ]
-                },
-            moredata:[]
-          };
-
-          var newlist2 = {
-                data:{},
-                  moredata:[]
+    fetchData () {
+      var newlist1 = {
+        data: {
+          topBanner: {
+            url: 'http://img14.360buyimg.com/da/jfs/t7273/185/4202400137/183642/3aad4810/59f7e339N87ff1725.jpg'
+          },
+          banner: [{
+            title: '石头门',
+            desc: '石头门2',
+            url: '//origin.dorodoro-lab.com/static/images/test.jpg',
+            price: 300
+          },
+          {
+            title: '艾瑞莉娅',
+            desc: '刀锋意识刀锋意识',
+            url: '//origin.dorodoro-lab.com/static/images/arelia.jpg',
+            price: 400
+          },
+          {
+            title: '妹子欣赏',
+            desc: '这是一个妹子妹子的图片',
+            url: '//origin.dorodoro-lab.com/static/images/meizi.jpg',
+            price: 500
           }
+          ],
+          homesession1: [
+            {
+              url: '//origin.dorodoro-lab.com/static/images/12818suud.jpg',
+              pingpai: '商品品牌',
+              price: '99',
+              desc: '商品品描述',
+              buy: '1999'
+            }
+          ],
+          homesession2: [
+            {
+              url: '//origin.dorodoro-lab.com/static/images/12818suud.jpg',
+              pingpai: '商品品牌',
+              price: '99',
+              desc: '商品品描述',
+              buy: '1999'
+            }
+          ],
+          homesession3: [
+            {
+              url: '//origin.dorodoro-lab.com/static/images/adidds.jpg',
+              pid: 18
+            }
+          ]
+        },
+        moredata: []
+      }
 
-          var newlist0 = {
-            data:{
-                  topBanner:{
-                      url: 'http://img12.360buyimg.com/babel/jfs/t7930/222/3394858494/73100/c634753c/59f6844dN7c218562.jpg'
-                  },
-                  banner: [{
-                      title: '阿狸',
-                      desc: '九尾妖狐',
-                      url: '//origin.dorodoro-lab.com/static/images/ali.jpg',
-                      price:300
-                    },
-                    {
-                      title: '艾瑞莉娅',
-                      desc: '刀锋意识刀锋意识',
-                      url: '//origin.dorodoro-lab.com/static/images/arelia.jpg',
-                      price:400
-                    },
-                    {
-                      title: '妹子欣赏',
-                      desc: '这是一个妹子妹子的图片',
-                      url: '//origin.dorodoro-lab.com/static/images/meizi.jpg',
-                      price:500
-                    }
-                  ],
-                  homesession1:[
-                      {
-                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
-                        pingpai:'商品品牌',
-                        price:'99',
-                        desc:"商品品描述",
-                        buy:'1999'
-                      }
-                  ],
-                  homesession2:[
-                      {
-                        url:'//origin.dorodoro-lab.com/static/images/12818suud.jpg',
-                        pingpai:'商品品牌',
-                        price:'99',
-                        desc:"商品品描述",
-                        buy:'1999'
-                      }
-                  ],
-                  homesession3:[
-                      {
-                        url:'//origin.dorodoro-lab.com/static/images/adidds.jpg',
-                        pid:18
-                      }
-                  ]
-                },
-            moredata:[]
-          };
+      var newlist2 = {
+        data: {},
+        moredata: []
+      }
 
-          let newlist=eval('newlist'+this.tabbarIndex);
-
-          let i=0;
-          while(i<8){ //模拟8条数据
-
-
-            newlist.moredata.push({
-                url:this.categoryIndex==0?'//origin.dorodoro-lab.com/static/images/mt1.jpg':'//origin.dorodoro-lab.com/static/images/mt2.jpg',
-                price:1000*i,
-                pingpai:'商品品牌',
-                desc:'商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2'
-            });
-            i++;
+      var newlist0 = {
+        data: {
+          topBanner: {
+            url: 'http://img12.360buyimg.com/babel/jfs/t7930/222/3394858494/73100/c634753c/59f6844dN7c218562.jpg'
+          },
+          banner: [{
+            title: '阿狸',
+            desc: '九尾妖狐',
+            url: '//origin.dorodoro-lab.com/static/images/ali.jpg',
+            price: 300
+          },
+          {
+            title: '艾瑞莉娅',
+            desc: '刀锋意识刀锋意识',
+            url: '//origin.dorodoro-lab.com/static/images/arelia.jpg',
+            price: 400
+          },
+          {
+            title: '妹子欣赏',
+            desc: '这是一个妹子妹子的图片',
+            url: '//origin.dorodoro-lab.com/static/images/meizi.jpg',
+            price: 500
           }
+          ],
+          homesession1: [
+            {
+              url: '//origin.dorodoro-lab.com/static/images/12818suud.jpg',
+              pingpai: '商品品牌',
+              price: '99',
+              desc: '商品品描述',
+              buy: '1999'
+            }
+          ],
+          homesession2: [
+            {
+              url: '//origin.dorodoro-lab.com/static/images/12818suud.jpg',
+              pingpai: '商品品牌',
+              price: '99',
+              desc: '商品品描述',
+              buy: '1999'
+            }
+          ],
+          homesession3: [
+            {
+              url: '//origin.dorodoro-lab.com/static/images/adidds.jpg',
+              pid: 18
+            }
+          ]
+        },
+        moredata: []
+      }
 
-          this.pageMore++;
-          //假设有3页数据
-          if(this.pageMore>3){newlist.moredata=[];}
+      let newlist = eval('newlist' + this.tabbarIndex)
 
-          return remoteData(newlist, 600);
+      let i = 0
+      while (i < 8) { // 模拟8条数据
+        newlist.moredata.push({
+          url: this.categoryIndex == 0 ? '//origin.dorodoro-lab.com/static/images/mt1.jpg' : '//origin.dorodoro-lab.com/static/images/mt2.jpg',
+          price: 1000 * i,
+          pingpai: '商品品牌',
+          desc: '商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2'
+        })
+        i++
+      }
 
+      this.pageMore++
+      // 假设有3页数据
+      if (this.pageMore > 3) { newlist.moredata = [] }
+
+      return remoteData(newlist, 600)
     },
-    handleSearch(val){
-      alert(val);
+    handleSearch (val) {
+      alert(val)
     },
-    onPullingDown() {
-
-      this.pageMore=0;
-      this.moredata=[];
+    onPullingDown () {
+      this.pageMore = 0
+      this.moredata = []
 
       this.fetchData().then((res) => {
         if (res) {
-          this.data=res.data;
-          this.$refs.scroll.forceUpdate(true);
+          this.data = res.data
+          this.$refs.scroll.forceUpdate(true)
         } else {
           this.$refs.scroll.forceUpdate()
         }
       })
     },
 
-    onPullingUp() {
-
+    onPullingUp () {
       this.fetchData().then((res) => {
-
         if (res.moredata.length > 0) {
-          this.moredata  = [...res.moredata,...this.moredata];
-          this.$nextTick(_=>{
-            this.$refs.scroll.forceUpdate(true);
-          });
+          this.moredata = [...res.moredata, ...this.moredata]
+          this.$nextTick(_ => {
+            this.$refs.scroll.forceUpdate(true)
+          })
         } else {
-          this.$nextTick(_=>{
+          this.$nextTick(_ => {
             this.$refs.scroll.forceUpdate()
-          });
+          })
         }
       })
-
     }
 
   }

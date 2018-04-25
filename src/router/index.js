@@ -1,243 +1,242 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',//history
-
+  mode: 'history', // history
 
   routes: [
     {
-      path:'/login',  //微信登录
-      name:'login',
-      component(resolve){
-        require(['@/views/login'],resolve);
+      path: '/login', // 微信登录
+      name: 'login',
+      component (resolve) {
+        require(['@/views/login'], resolve)
       },
       meta: {
-        noPageAnimation: true, auth:false
+        noPageAnimation: true, auth: false
       }
     },
     {
       path: '/',
-      alias:['/home','/index.html'],
+      alias: ['/home', '/index.html'],
       name: 'home',
-      component(resolve) {
-        require(['@/views/Home'], resolve);
+      component (resolve) {
+        require(['@/views/Home'], resolve)
       },
       meta: {
-         noPageAnimation: true, auth:false
+        noPageAnimation: true, auth: false
       }
-
 
     },
     {
       path: '/category',
       name: 'category',
-      component(resolve) {
-        require(['@/views/Category'], resolve);
+      component (resolve) {
+        require(['@/views/Category'], resolve)
       },
       meta: {
-         noPageAnimation: true, auth:false
-      },
-
+        noPageAnimation: true, auth: false
+      }
 
     },
     {
-      path: '/profile', //个人中心
+      path: '/profile', // 个人中心
       name: 'profile',
-      component(resolve) {
-        require(['@/views/Profile'], resolve);
+      component (resolve) {
+        require(['@/views/Profile'], resolve)
       },
       meta: {
         noPageAnimation: true
       }
     },
     {
-      path: '/address', //地址列表
+      path: '/address', // 地址列表
       name: 'address',
-      component(resolve) {
-        require(['@/views/Address'], resolve);
+      component (resolve) {
+        require(['@/views/Address'], resolve)
       },
       meta: {
-        noPageAnimation: false,
+        noPageAnimation: false
       }
     },
     {
-      path: '/address/add',//添加列表
+      path: '/address/add', // 添加列表
       name: 'address_add',
-      component(resolve) {
-        require(['@/views/address_add'], resolve);
+      component (resolve) {
+        require(['@/views/address_add'], resolve)
       },
       meta: {
-        noPageAnimation: true,
+        noPageAnimation: true
       }
     },
     {
-      path:'/point', //积分
-      name:'point',
-      component(resolve){
-        require(['@/views/point'],resolve);
+      path: '/point', // 积分
+      name: 'point',
+      component (resolve) {
+        require(['@/views/point'], resolve)
       },
       meta: {
-        noPageAnimation: false,
+        noPageAnimation: false
       }
     },
     {
-      path:'/recommend', //多拼多汇
-      name:'recommend',
-      component(resolve){
-        require(['@/views/recommend'],resolve);
+      path: '/recommend', // 多拼多汇
+      name: 'recommend',
+      component (resolve) {
+        require(['@/views/recommend'], resolve)
       },
       meta: {
-        noPageAnimation: false,
+        noPageAnimation: false
       }
     },
     {
-      path:'/discount', //多拼多汇
-      name:'discount',
-      component(resolve){
-        require(['@/views/discount'],resolve);
+      path: '/discount', // 多拼多汇
+      name: 'discount',
+      component (resolve) {
+        require(['@/views/discount'], resolve)
       },
       meta: {
-        noPageAnimation: false,
+        noPageAnimation: false
       }
     },
     {
-      path:'/point/list',//积分列表
-      name:'pointList',
-      component(resovle){
-        require(['@/views/pointList'],resovle);
+      path: '/point/list', // 积分列表
+      name: 'pointList',
+      component (resovle) {
+        require(['@/views/pointList'], resovle)
       },
       meta: {
-        noPageAnimation: true,
+        noPageAnimation: true
       }
     },
     {
-      path:'/balance', //余额
-      name:'balance',
-      component(resolve){
-        require(['@/views/balance'],resolve);
+      path: '/balance', // 余额
+      name: 'balance',
+      component (resolve) {
+        require(['@/views/balance'], resolve)
       },
       meta: {
-        noPageAnimation: false,
+        noPageAnimation: false
       }
     },
     {
-      path:'/balance/list', //余额明细
-      name:'balanceList',
-      component(resolve){
-        require(['@/views/balanceList'],resolve);
+      path: '/balance/list', // 余额明细
+      name: 'balanceList',
+      component (resolve) {
+        require(['@/views/balanceList'], resolve)
       },
       meta: {
-        noPageAnimation: true,
+        noPageAnimation: true
       }
     },
     {
-      path:'/coupons',  //票券
-      name:'coupons',
-      component(resolve){
-        require(['@/views/coupons'],resolve);
+      path: '/coupons', // 票券
+      name: 'coupons',
+      component (resolve) {
+        require(['@/views/coupons'], resolve)
       },
       meta: {
-        noPageAnimation: false,
+        noPageAnimation: false
       }
     },
     {
-      path:'/conponsList', //使用票券列表
-      name:'conponsList',
-      component(resolve){
-        require(['@/views/couponsList'],resolve);
+      path: '/conponsList', // 使用票券列表
+      name: 'conponsList',
+      component (resolve) {
+        require(['@/views/couponsList'], resolve)
       },
       meta: {
-        noPageAnimation: false,
+        noPageAnimation: false
       }
     },
     {
-      path:'/orderList', //订单列表
-      name:'orderList',
-      component(resolve){
-        require(['@/views/orderList'],resolve);
+      path: '/orderList', // 订单列表
+      name: 'orderList',
+      component (resolve) {
+        require(['@/views/orderList'], resolve)
       },
-      meta:{
-          noPageAnimation: false,
+      meta: {
+        noPageAnimation: false
       }
     },
     {
-      path:'/orderDetail/:id',
-      name:'orderDetail',
-      component(resolve){
-        require(['@/views/orderDetail'],resolve);
+      path: '/orderDetail/:id',
+      name: 'orderDetail',
+      component (resolve) {
+        require(['@/views/orderDetail'], resolve)
       },
-      meta:{
-          noPageAnimation: false,
+      meta: {
+        noPageAnimation: false
       }
     },
     {
-      path:'/invoice', //开具发票
-      name:'invoice',
-      component(resolve){
-        require(['@/views/invoice'],resolve);
+      path: '/invoice', // 开具发票
+      name: 'invoice',
+      component (resolve) {
+        require(['@/views/invoice'], resolve)
       },
-      meta:{
-          noPageAnimation:true,
+      meta: {
+        noPageAnimation: true
       }
     },
     {
-      path:'/invoice/next', //开具发票
-      name:'invoice_next',
-      component(resolve){
-        require(['@/views/invoice_next'],resolve);
+      path: '/invoice/next', // 开具发票
+      name: 'invoice_next',
+      component (resolve) {
+        require(['@/views/invoice_next'], resolve)
       },
-      meta:{
-          noPageAnimation:false,
+      meta: {
+        noPageAnimation: false
       }
     },
     {
       path: '/cart',
       name: 'cart',
-      component(resolve) {
-        require(['@/views/Cart'], resolve);
+      component (resolve) {
+        require(['@/views/Cart'], resolve)
       },
       meta: {
-         noPageAnimation: true,auth:false
+        noPageAnimation: true, auth: false
       }
     },
     {
-      path: '/detail/:id', //详情
+      path: '/detail/:id', // 详情
       name: 'detail',
-      component(resolve) {
-        require(['@/views/Detail'], resolve);
-      }
-    },
-    {
-      path:'/pay', //支付
-      name:'pay',
-      component(resolve){
-        require(['@/views/pay'],resolve);
+      component (resolve) {
+        require(['@/views/Detail'], resolve)
       },
       meta: {
-         noPageAnimation: false,
+        auth: false
       }
     },
     {
-      path:'/evaluate/:id', //评价
-      name:'evaluate',
-      component(resolve){
-        require(['@/views/evaluate'], resolve);
+      path: '/pay', // 支付
+      name: 'pay',
+      component (resolve) {
+        require(['@/views/pay'], resolve)
+      },
+      meta: {
+        noPageAnimation: false
+      }
+    },
+    {
+      path: '/evaluate/:id', // 评价
+      name: 'evaluate',
+      component (resolve) {
+        require(['@/views/evaluate'], resolve)
       }
     },
     {
       path: '*',
       name: 'nopage',
-      component(resolve) {
-        require(['@/views/404'], resolve);
+      component (resolve) {
+        require(['@/views/404'], resolve)
       },
       meta: {
-         noPageAnimation: true,
+        noPageAnimation: true
       }
-    },
+    }
     // {
     //   path: '/login',
     //   name: Login.name,

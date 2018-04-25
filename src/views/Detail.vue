@@ -49,7 +49,7 @@
           <simple-scroll   ref="scroll2" class="scroll-list"  direction="vertical" v-if="productDetail.detailPicList">
             <div class="item-pic">
               <ul>
-                <li v-for="item in productDetail.detailPicList">
+                <li v-for="item in productDetail.detailPicList" :key="item.id">
                   <p>
                     大家在发言中结合自身实际工作提出建议。施芝鸿委员提出，要积极投身到新时代新的伟大进军，努力在新时代展现新气象、新作为；郑建邦常委代表民革中央发言建议，要按照中共十九大有关部署，加快西北地区发展，推动区域协调发展；徐辉常委代表民盟中央发言提出，明确教育战略定位，贯彻“以人民为中心”的发展思想，继续深化教育改革，加快推进教育现代化；李谠常委代表民建中央发言提出，确立清洁能源优先发展战略，加强清洁能源高端装备研发制造，提高清洁能源消纳能力，鼓励清洁能源企业参与“一带一路”能源合作；蔡达峰常委代表民进中央发言表示，
                   </p>
@@ -63,7 +63,7 @@
         <div class="container-tab container-tab-3">
           <div class="item-evaluate">
             <simple-scroll  ref="scroll3" class="scroll-list"  direction="vertical" v-if="productDetail.evaluates">
-              <mt-cell v-for="item in productDetail.evaluates" :title="item.memo" :key="item.star" >
+              <mt-cell v-for="(item,index) in productDetail.evaluates" :title="item.memo" :key="index" >
                 {{item.star}}
               </mt-cell>
             </simple-scroll>
@@ -72,8 +72,6 @@
         </div>
       </ul>
     </div>
-
-
 
     <div class="detail-footer flex flex-row">
       <div class="detail-footer-item favorite">
@@ -152,7 +150,6 @@
 
     }
 
-
     .container-main{
       flex: 1;
       overflow: hidden;
@@ -203,7 +200,6 @@
 
       }
     }
-
 
     .scroll-list{
       @include grid-fill(0) ;
@@ -264,11 +260,8 @@
 
     .item-evaluate{
 
-
     }
   }
-
-
 
   .detail-footer{
 
@@ -312,90 +305,70 @@
 </style>
 <script>
 
-  export default {
-    name: 'category',
-    data () {
-      return {
-        tabbarIndex:1,
-        productDetail:{},
-        id:null,
-        quantity:1,
-        favorited:false
-      }
-    },
-    created(){
-
-
-      this.id=this.$route.params.id;
-      this.fetchData();
-
-    },
-    mounted(){
-
-
-    },
-    watch:{
-
-      tabbarIndex(val){
-
-
-        this.$nextTick(_=>{
-
-          this.$refs[`scroll${val}`].refresh();
-        });
-
-      }
-
-    },
-    methods:{
-      sss(aa){
-          return aa;
-      },
-      fetchData(){
-
-        this.$store.dispatch('getDetail',this.id).then(res=>{
-
-            this.productDetail=res.productDetail;
-
-        }).catch(res=>{
-          console.log(res);
-        })
-
-
-      },
-      addCart(){
-        this.$toast({ message: '添加成功',
-          position: 'bottom',
-          duration: 1000});
-
-      },
-      toFavorite(){
-        let message='关注成功'
-
-         if(this.favorited){
-            message='取消成功';
-           this.favorited=false;
-         }else{
-           this.favorited=true;
-         }
-        this.$toast({message,
-          position: 'bottom',
-          duration: 1000});
-      },
-      buyNow(){
-
-        this.$store.dispatch('singleBuy',{id:this.id,quantity:this.quantity}).then(res=>{
-
-
-          this.$router.replace(`/orderDetail/${this.id}`)
-
-        }).catch(res=>{
-
-          this.$messagebox.alert('出错了');
-        })
-
-      }
-
+export default {
+  name: 'category',
+  data () {
+    return {
+      tabbarIndex: 1,
+      productDetail: {},
+      id: null,
+      quantity: 1,
+      favorited: false
     }
+  },
+  created () {
+    this.id = this.$route.params.id
+    this.fetchData()
+  },
+  mounted () {
+
+  },
+  watch: {
+
+    tabbarIndex (val) {
+      this.$nextTick(_ => {
+        this.$refs[`scroll${val}`].refresh()
+      })
+    }
+
+  },
+  methods: {
+    sss (aa) {
+      return aa
+    },
+    fetchData () {
+      this.$store.dispatch('getDetail', this.id).then(res => {
+        this.productDetail = res.data.productDetail
+      }).catch(res => {
+        console.log(res)
+      })
+    },
+    addCart () {
+      this.$toast({ message: '添加成功',
+        position: 'bottom',
+        duration: 1000})
+    },
+    toFavorite () {
+      let message = '关注成功'
+
+      if (this.favorited) {
+        message = '取消成功'
+        this.favorited = false
+      } else {
+        this.favorited = true
+      }
+      this.$toast({message,
+        position: 'bottom',
+        duration: 1000})
+    },
+    buyNow () {
+      this.$store.dispatch('singleBuy', {id: this.id, quantity: this.quantity}).then(res => {
+        this.$router.replace(`/orderDetail/${this.id}`)
+      }).catch(res => {
+        this.$messagebox.alert('出错了')
+      })
+    }
+
   }
+}
 </script>

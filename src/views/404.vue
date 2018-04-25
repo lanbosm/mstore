@@ -13,9 +13,9 @@ export default {
 
     }
   },
-  methods:{
-    handleClick(){
-       this.$router.replace('/home');
+  methods: {
+    handleClick () {
+      this.$router.replace('/home')
     }
 
   }

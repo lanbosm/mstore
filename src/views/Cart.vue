@@ -1,6 +1,6 @@
 <template>
   <div class="page full flex flex-col cart">
-      <my-header title="购物袋">
+      <my-header title="购物车">
           <div slot="right" @click="handleEdit">编辑</div>
       </my-header>
       <div class="cart-main">
@@ -17,36 +17,37 @@
                       </div>
                   </div>
                   <div class="item-list">
-
-                          <div class="item" v-for="(item,index) in cart.brand.items" >
-                              <div class="item-bg">
-                                    <div class="item-del-btn" @click="handleDelete(cart.brand.items,index)">
-                                        删除
+                          <transition-group name="list"  tag="ul">
+                            <div class="item list-item"   :key="item.id"  v-for="(item,index) in cart.brand.items" >
+                                <div class="item-bg">
+                                      <div class="item-del-btn" @click="handleDelete(cart.brand.items,index)">
+                                          删除
+                                      </div>
+                                </div>
+                                <div class="item-fg" v-finger:swipe="{ events:{touchStart:swipeItemStart,touchMove:swipeItemMove,touchEnd:swipeItemEnd},item: item ,index:index}">
+                                     <div class="item-left">
+                                          <check-box :item="item" ></check-box>
                                     </div>
-                              </div>
-                              <div class="item-fg" v-finger:swipeMove="swipeItem" >
-                                   <div class="item-left">
-                                        <check-box :item="item" ></check-box>
-                                  </div>
-                                  <div class="item-right"   >
-                                        <div class="item-img" @click="pagePush('/detail/'+item.id)">
-                                            <img  class="img-responsive" :src="item.image" />
-                                        </div>
-                                        <div class="item-txt item-itemName">
-                                              {{item.name}}
-                                        </div>
-                                        <div class="item-txt item-itemDesc">
-                                              {{item.desc}}
-                                        </div>
-                                        <div class="item-txt item-spec">
-                                              {{item.desc}}
-                                        </div>
-                                        <div class="item-txt item-price">
-                                              {{item.price | currency}}
-                                        </div>
-                                  </div>
-                              </div>
-                          </div>
+                                    <div class="item-right"   >
+                                          <div class="item-img" @click="pagePush('/detail/'+item.id)">
+                                              <img  class="img-responsive" :src="item.image" />
+                                          </div>
+                                          <div class="item-txt item-itemName">
+                                                {{item.name}}
+                                          </div>
+                                          <div class="item-txt item-itemDesc">
+                                                {{item.desc}}
+                                          </div>
+                                          <div class="item-txt item-spec">
+                                                {{item.desc}}
+                                          </div>
+                                          <div class="item-txt item-price">
+                                                {{item.price | currency}}
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </transition-group>
 
                   </div>
               </li>
@@ -67,6 +68,16 @@
 
 <style lang="scss" scoped>
 
+
+  .list-leave-to{
+    opacity: 0;
+    height: 0 !important;
+    overflow: hidden;
+  }
+  .list-leave-active,.list-move {
+    transition: all 300ms;
+
+  }
   .cart-top{
       width: 750px;
       height: 120px;
@@ -121,12 +132,10 @@
                   display: flex;
                  flex-direction: column;
                   .item{
-
-                      // padding-left: 20px;
-                      // padding-right: 20px;
-
                       height: 200px;
+                      display: flex;
                       position: relative;
+
                       .item-bg{
                           @include grid-fill(0) ;
                           display: flex;
@@ -240,6 +249,11 @@
 </style>
 <script>
 
+
+
+
+
+
 import { mapState,mapGetters ,mapMutations, mapActions } from 'vuex';
 
 export default {
@@ -248,9 +262,9 @@ export default {
     return {
       loading:true,
       cartList:[],
-      allchecked:true
+      allchecked:true,
 
-
+      cc:null
     }
   },
   computed: {
@@ -309,16 +323,16 @@ export default {
               id:2,
               name:"优衣库",
               items:[
-                {id:2,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:2,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:2,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:3,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:3,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
-                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
-                {id:4,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'},
-                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'}
+                {id:1,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+                {id:2,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1100",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1200",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1300",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+                {id:5,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1400",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+                {id:6,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+                {id:7,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
+                {id:8,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
+                {id:9,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'},
+                {id:10,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'}
               ]
           }
         }
@@ -333,6 +347,12 @@ export default {
     //  }).catch(_=>{
         //  alert('wangluoshnsh')
       //})
+      //__didDecelerationComplete
+      /** This configures the amount of change applied to deceleration when reaching boundaries  **/
+       this.penetrationDeceleration = 0.03;
+
+        /** This configures the amount of change applied to acceleration when reaching boundaries  **/
+       this.penetrationAcceleration =0.08
 
     },
 
@@ -348,26 +368,47 @@ export default {
         })
 
     },
+    swipeItemStart(e,el,item){
 
-    swipeItem(e,item){
-            // if(this.$refs.categoryBarScroll.scroll.moved){
-            //   return false;
-            // }
-            //weeex不支持！！
-            //如果少于40就不移动
-            // if(Math.abs(e.deltaX)<5){
-            //     return false;
-            // }
-            console.log(this.$refs.categoryBarScroll.scrolling);
-            var d=e.distanceX;
-            //d修正
-            if(d<-120){
-                d=-120;
+
+
+    },
+    swipeItemEnd(e,el,item){
+
+        var target=0;
+        if(e.distanceX<-80){
+
+          target=-80;
+        }
+
+        this.$animate.elasticTransition(el,{'transform':`translate(${target}px,0px)`},function () {
+              console.log('over');
+        });
+
+    },
+    swipeItemMove(e,el,item){
+
+
+           var maxScrollLeft =el.getBoundingClientRect().width;
+           var scrollLeft = el.getBoundingClientRect().left;
+
+
+            //牵引力
+            scrollLeft += e.deltaX;
+            if(scrollLeft>maxScrollLeft/4){
+
+              scrollLeft -= (e.deltaX /2  * 1.5);
             }
-            item.style.transition="none"
-            if(d>0){d=0; item.style.transition="all 100ms linear"}
+            else if(scrollLeft> maxScrollLeft ||scrollLeft<0) {
+                //添加反阻力
+                scrollLeft -= (e.deltaX / 2  * 1);
+            }
 
-            item.style.transform='translateX('+d+'px)';
+
+
+             this.$animate.setCSS(el,{'transform':`translate(${scrollLeft}px,0px)`});
+
+
     },
     handleEdit(){
 
@@ -377,12 +418,20 @@ export default {
     handleDelete(items,index){
        // console.log(index);
         //items.splice(index,1);
-      var a=items
-        a.splice(index,1);
+      this.$messagebox({
+        title: '确认删除吗',
+        message: ' ',
+        showCancelButton: true
+      }).then(res=> {
+        if (res == 'confirm'){
+          items.splice(index, 1);
+        }
+      });
+
        // alert('删除');
     },
     selectItem(item){
-          console.log(item);
+         // console.log(item);
     },
     selectBrand(brand){
 

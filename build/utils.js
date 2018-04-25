@@ -1,6 +1,7 @@
 var path = require('path')
 var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const packageConfig = require('../package.json')
 
 exports.assetsPath = function (_path) {
   var assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -12,30 +13,46 @@ exports.assetsPath = function (_path) {
 exports.cssLoaders = function (options) {
   options = options || {}
 
-  var cssLoader = {
+  const cssLoader = {
     loader: 'css-loader',
     options: {
-      minimize: process.env.NODE_ENV === 'production',
       sourceMap: options.sourceMap
     }
   }
 
-  // var px2remLoader = {
-  //   loader: 'px2rem-loader',
-  //   options: {
-  //     remUnit: 75
-  //   }
-  // }
+  const postcssLoader = {
+    loader: 'postcss-loader',
+    options: {
+      sourceMap: options.sourceMap
+    }
+  }
+
+  const  sassResourcesLoader={
+    loader: 'sass-resources-loader',
+    options: {
+      // it need a absolute path
+      resources: [resolveResouce('_var.scss'), resolveResouce('_mixins.scss')]
+    }
+  }
+
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {
-    var loaders = [cssLoader]
+
+
+    const loaders = options.usePostCSS && loader  ? [cssLoader, postcssLoader] : [cssLoader];
+
     if (loader) {
+
       loaders.push({
         loader: loader + '-loader',
         options: Object.assign({}, loaderOptions, {
           sourceMap: options.sourceMap
         })
       })
+
+      if(loader=="sass" ){
+          loaders.push(sassResourcesLoader);
+      }
     }
 
     // Extract CSS when that option is specified
@@ -54,18 +71,21 @@ exports.cssLoaders = function (options) {
     return path.resolve(__dirname, '../src/scss/' + name);
   }
 
+
+
+
   function generateSassResourceLoader() {
     var loaders = [
       cssLoader,
       'postcss-loader',
       'sass-loader',
       {
-        loader: 'sass-resources-loader',
-        options: {
-          // it need a absolute path
-          resources: [resolveResouce('_var.scss'), resolveResouce('_mixins.scss')]
+          loader: 'sass-resources-loader',
+          options: {
+            // it need a absolute path
+            resources: [resolveResouce('_var.scss'), resolveResouce('_mixins.scss')]
+          }
         }
-      }
     ];
 
     if (options.extract) {
@@ -83,10 +103,8 @@ exports.cssLoaders = function (options) {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
-    // sass: generateLoaders('sass', { indentedSyntax: true }),
-    sass: generateSassResourceLoader(),
-    // scss: generateLoaders('sass'),
-    scss: generateSassResourceLoader(),
+    sass: generateLoaders('sass', { indentedSyntax: true }),
+    scss: generateSassResourceLoader('sass'),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
   }
@@ -106,4 +124,22 @@ exports.styleLoaders = function (options) {
     })
   }
   return output
+}
+
+exports.createNotifierCallback = () => {
+  const notifier = require('node-notifier')
+
+  return (severity, errors) => {
+    if (severity !== 'error') return
+
+    const error = errors[0]
+    const filename = error.file && error.file.split('!').pop()
+
+    notifier.notify({
+      title: packageConfig.name,
+      message: severity + ': ' + error.name,
+      subtitle: filename || '',
+      icon: path.join(__dirname, 'logo.png')
+    })
+  }
 }
