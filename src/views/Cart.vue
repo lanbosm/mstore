@@ -68,7 +68,6 @@
 
 <style lang="scss" scoped>
 
-
   .list-leave-to{
     opacity: 0;
     height: 0 !important;
@@ -83,8 +82,6 @@
       height: 120px;
       line-height: 120px;
   }
-
-
 
   .cart-main{
     flex: 1;
@@ -107,11 +104,9 @@
 
               .brand-item{
 
-
                 display: flex;
                 flex-direction: column;
                 position:relative;
-
 
                 .brand-title{
                     height: 80px;
@@ -206,14 +201,11 @@
 
                   }
 
-
-
               }
 
           }
 
         }
-
 
         .cart-bom-bar{
             width: 750px;
@@ -234,230 +226,195 @@
                }
             }
 
-
         }
 
-
-
-
-
-
   }
-
-
 
 </style>
 <script>
 
-
-
-
-
-
-import { mapState,mapGetters ,mapMutations, mapActions } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'cart',
   data () {
     return {
-      loading:true,
-      cartList:[],
-      allchecked:true,
+      loading: true,
+      cartList: [],
+      allchecked: true,
 
-      cc:null
+      cc: null
     }
   },
   computed: {
-    totalPrice2(){
-          var sum=0
-          this.cartList.forEach((ele,index)=>{
-
-                ele.brand.items.forEach((ele2,index2)=>{
-                    if(ele2.checked){
-                      sum+=Number(ele2.price);
-                    }
-                })
-          })
-          return sum;
+    totalPrice2 () {
+      var sum = 0
+      this.cartList.forEach((ele, index) => {
+        ele.brand.items.forEach((ele2, index2) => {
+          if (ele2.checked) {
+            sum += Number(ele2.price)
+          }
+        })
+      })
+      return sum
     },
-    totalBuys(){
-          var sum=0
-          this.cartList.forEach((ele,index)=>{
-
-                ele.brand.items.forEach((ele2,index2)=>{
-                    if(ele2.checked){
-                      sum+=1;
-                    }
-                })
-          })
-          return sum;
+    totalBuys () {
+      var sum = 0
+      this.cartList.forEach((ele, index) => {
+        ele.brand.items.forEach((ele2, index2) => {
+          if (ele2.checked) {
+            sum += 1
+          }
+        })
+      })
+      return sum
     },
     ...mapState('cart', {
-        list:state=>state.list
+      list: state => state.list
     }),
     ...mapGetters('cart', ['totalPrice']),
-    ...mapGetters('address',['defaultAddress'])
+    ...mapGetters('address', ['defaultAddress'])
   },
-  created(){
-      //console.log(this.defaultAddress);
-    this.fetchData();
+  created () {
+    // console.log(this.defaultAddress);
+    this.fetchData()
   },
-  methods:{
+  methods: {
     ...mapActions('cart', ['getCartList']),
-    fetchData(){
-
-      this.loading=true;
-      var mdata=[
+    fetchData () {
+      this.loading = true
+      var mdata = [
 
         {
-          "brand":{
-            id:1,
-            name:"阿迪达斯",
-            items:[
-              {id:1,name:"靴子",desc:"这是描述这是描述这",spec:"黑色 1双",price:"300",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod1.jpg'}
+          'brand': {
+            id: 1,
+            name: '阿迪达斯',
+            items: [
+              {id: 1, name: '靴子', desc: '这是描述这是描述这', spec: '黑色 1双', price: '300', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/prod1.jpg'}
             ]
           }
         },
         {
-          "brand":{
-              id:2,
-              name:"优衣库",
-              items:[
-                {id:1,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:2,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1100",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:3,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1200",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt1.jpg'},
-                {id:4,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1300",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:5,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1400",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:6,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod2.jpg'},
-                {id:7,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
-                {id:8,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/mt2.jpg'},
-                {id:9,name:"衣服",spec:"蓝白色 1双",desc:"这是描述这是描述这是描述",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'},
-                {id:10,name:"衣服",desc:"这是描述这是描述这是描述",spec:"蓝白色 1双",price:"1000",quantity:1,image:'//origin.dorodoro-lab.com/static/images/prod4.jpg'}
-              ]
+          'brand': {
+            id: 2,
+            name: '优衣库',
+            items: [
+              {id: 1, name: '衣服', spec: '蓝白色 1双', desc: '这是描述这是描述这是描述', price: '1000', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+              {id: 2, name: '衣服', desc: '这是描述这是描述这是描述', spec: '蓝白色 1双', price: '1100', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+              {id: 3, name: '衣服', spec: '蓝白色 1双', desc: '这是描述这是描述这是描述', price: '1200', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/mt1.jpg'},
+              {id: 4, name: '衣服', desc: '这是描述这是描述这是描述', spec: '蓝白色 1双', price: '1300', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+              {id: 5, name: '衣服', spec: '蓝白色 1双', desc: '这是描述这是描述这是描述', price: '1400', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+              {id: 6, name: '衣服', desc: '这是描述这是描述这是描述', spec: '蓝白色 1双', price: '1000', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/prod2.jpg'},
+              {id: 7, name: '衣服', spec: '蓝白色 1双', desc: '这是描述这是描述这是描述', price: '1000', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/mt2.jpg'},
+              {id: 8, name: '衣服', desc: '这是描述这是描述这是描述', spec: '蓝白色 1双', price: '1000', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/mt2.jpg'},
+              {id: 9, name: '衣服', spec: '蓝白色 1双', desc: '这是描述这是描述这是描述', price: '1000', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/prod4.jpg'},
+              {id: 10, name: '衣服', desc: '这是描述这是描述这是描述', spec: '蓝白色 1双', price: '1000', quantity: 1, image: '//origin.dorodoro-lab.com/static/images/prod4.jpg'}
+            ]
           }
         }
 
       ]
-      //this.getCartList().then(res=>{
+      // this.getCartList().then(res=>{
 
-        this.loading=false;
-        this.cartList=mdata;
-       // console.log(this.cartList);
-        //
-    //  }).catch(_=>{
-        //  alert('wangluoshnsh')
-      //})
-      //__didDecelerationComplete
+      this.loading = false
+      this.cartList = mdata
+      // console.log(this.cartList);
+      //
+      //  }).catch(_=>{
+      //  alert('wangluoshnsh')
+      // })
+      // __didDecelerationComplete
       /** This configures the amount of change applied to deceleration when reaching boundaries  **/
-       this.penetrationDeceleration = 0.03;
+      this.penetrationDeceleration = 0.03
 
-        /** This configures the amount of change applied to acceleration when reaching boundaries  **/
-       this.penetrationAcceleration =0.08
-
+      /** This configures the amount of change applied to acceleration when reaching boundaries  **/
+      this.penetrationAcceleration = 0.08
     },
 
-    addList(){
-
-        this.$store.dispatch('addList',this.value).then(res=>{
-
-          console.log(this.$store.state);
-          this.$messagebox.alert(res.msg);
-        }).catch(res=>{
-
-          this.$messagebox.alert('出错了');
-        })
-
+    addList () {
+      this.$store.dispatch('addList', this.value).then(res => {
+        console.log(this.$store.state)
+        this.$messagebox.alert(res.msg)
+      }).catch(res => {
+        this.$messagebox.alert('出错了')
+      })
     },
-    swipeItemStart(e,el,item){
+    swipeItemStart (e, el, item) {
+      if (el.classList.contains('moved')) {
+        return false
+      }
 
-
-
+      [].forEach.call(document.querySelectorAll('.moved'), li => (this.$animate.elasticTransition(li, {'transform': `translate(0px,0px)`}, function () {
+        li.classList.remove('moved')
+      })))
+      el.classList.add('moved')
     },
-    swipeItemEnd(e,el,item){
+    swipeItemEnd (e, el, item) {
+      var target = 0
+      if (e.distanceX < -80) {
+        target = -80
+      }
 
-        var target=0;
-        if(e.distanceX<-80){
-
-          target=-80;
+      this.$animate.bufferTransition(el, {'transform': `translate(${target}px,0px)`}, function () {
+        if (target === 0) {
+          el.classList.remove('moved')
         }
-
-        this.$animate.elasticTransition(el,{'transform':`translate(${target}px,0px)`},function () {
-              console.log('over');
-        });
-
+      })
     },
-    swipeItemMove(e,el,item){
+    swipeItemMove (e, el, item) {
+      var maxScrollLeft = el.getBoundingClientRect().width
+      var scrollLeft = el.getBoundingClientRect().left
 
+      // 牵引力
+      scrollLeft += e.deltaX
+      if (scrollLeft > maxScrollLeft / 4) {
+        scrollLeft -= (e.deltaX / 2 * 1.5)
+      } else if (scrollLeft > maxScrollLeft || scrollLeft < 0) {
+        // 添加反阻力
+        scrollLeft -= (e.deltaX / 2 * 1)
+      }
 
-           var maxScrollLeft =el.getBoundingClientRect().width;
-           var scrollLeft = el.getBoundingClientRect().left;
-
-
-            //牵引力
-            scrollLeft += e.deltaX;
-            if(scrollLeft>maxScrollLeft/4){
-
-              scrollLeft -= (e.deltaX /2  * 1.5);
-            }
-            else if(scrollLeft> maxScrollLeft ||scrollLeft<0) {
-                //添加反阻力
-                scrollLeft -= (e.deltaX / 2  * 1);
-            }
-
-
-
-             this.$animate.setCSS(el,{'transform':`translate(${scrollLeft}px,0px)`});
-
-
+      this.$animate.setCSS(el, {'transform': `translate(${scrollLeft}px,0px)`})
     },
-    handleEdit(){
-
-        alert('编辑');
-
+    handleEdit () {
+      alert('编辑')
     },
-    handleDelete(items,index){
-       // console.log(index);
-        //items.splice(index,1);
+    handleDelete (items, index) {
+      // console.log(index);
+      // items.splice(index,1);
       this.$messagebox({
         title: '确认删除吗',
         message: ' ',
         showCancelButton: true
-      }).then(res=> {
-        if (res == 'confirm'){
-          items.splice(index, 1);
+      }).then(res => {
+        if (res === 'confirm') {
+          items.splice(index, 1)
         }
-      });
+      })
 
-       // alert('删除');
+      // alert('删除');
     },
-    selectItem(item){
-         // console.log(item);
+    selectItem (item) {
+      // console.log(item);
     },
-    selectBrand(brand){
+    selectBrand (brand) {
+      let checked = brand.checked ? brand.checked : false
 
-
-        let checked = brand.checked?brand.checked:false;
-
-        brand.items.forEach((ele,index)=>{
-            this.$set(ele,'checked',checked);
-            this.selectItem(ele);
-        })
-
-
+      brand.items.forEach((ele, index) => {
+        this.$set(ele, 'checked', checked)
+        this.selectItem(ele)
+      })
     },
-    selectAll(){
+    selectAll () {
+      var checked = this.$refs.allselect.checked // this.allchecked
 
-        var checked=this.$refs.allselect.checked; //this.allchecked
-
-			  this.cartList.forEach((ele, index)=>{
-				   this.$set(ele.brand,'checked',checked);
-				   this.selectBrand(ele.brand);
-			  });
-
+			  this.cartList.forEach((ele, index) => {
+				   this.$set(ele.brand, 'checked', checked)
+				   this.selectBrand(ele.brand)
+			  })
     },
-    handleClick2(){
-
-        this.pagePush('/wallet');
+    handleClick2 () {
+      this.pagePush('/wallet')
     }
 
   }

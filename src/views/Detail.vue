@@ -19,7 +19,7 @@
     </my-header2>
 
     <div class="container-main">
-      <ul :class="'container-tab-ul container-tab-show'+tabbarIndex" >
+      <ul :class="'container-tab-ul container-tab-show'+tabbarIndex" v-finger:swipe="{ events:{touchStart:swipeTabStart,touchMove:swipeTabMove,touchEnd:swipeTabEnd}}" >
         <div class="container-tab container-tab-1" >
           <simple-scroll ref="scroll1" class="scroll-list"  direction="vertical" v-if="productDetail.banner">
             <div class="item-info">
@@ -162,7 +162,6 @@
         width: 2250px;
         display: flex;
         flex-direction: row;
-        transition: all 300ms;
         &.container-tab-show1{
 
           transform: translateX(0);
@@ -305,8 +304,10 @@
 </style>
 <script>
 
+import {WAIT_TEXT, SERVER_ERROR_TEXT} from '@/var'
+
 export default {
-  name: 'category',
+  name: 'detail',
   data () {
     return {
       tabbarIndex: 1,
@@ -333,14 +334,90 @@ export default {
 
   },
   methods: {
-    sss (aa) {
-      return aa
+    swipeTabStart (e, el) {
+
+    },
+    swipeTabMove (e, el) {
+      // e.preventDefault();
+
+      var canSwipeX = e.swipeAxis === 'X'
+      var canSwipeY = e.swipeAxis === 'Y'
+
+      if (!canSwipeX) {
+        this.$refs[`scroll` + this.tabbarIndex].enable()
+        return false
+      }
+
+      if (!canSwipeY) {
+        this.$refs[`scroll` + this.tabbarIndex].disable()
+      }
+      var maxScrollLeft = el.getBoundingClientRect().width
+      var scrollLeft = el.getBoundingClientRect().left
+      // 牵引力
+      scrollLeft += e.deltaX * 1
+
+      var x = el.getBoundingClientRect().x
+
+      if (x <= -560) {
+        this.tabbarIndex = 3
+      } else if (x <= -185) {
+        this.tabbarIndex = 2
+      } else {
+        this.tabbarIndex = 1
+      }
+
+      if (scrollLeft > 0) {
+        scrollLeft -= (e.deltaX / 2 * 1.5)
+      } else if (Math.abs(scrollLeft) > maxScrollLeft - maxScrollLeft/3) {
+        // 添加反阻力
+        scrollLeft -= (e.deltaX / 2 * 1.5)
+      }
+
+      this.$animate.setCSS(el, {'transform': `translate(${scrollLeft}px,0px)`})
+    },
+    swipeTabEnd (e, el) {
+      this.$refs[`scroll` + this.tabbarIndex].enable()
+
+      var x = el.getBoundingClientRect().x
+      var xx = 0
+
+      if (x <= -560) {
+        xx = -750
+      } else if (x <= -185) {
+        xx = -375
+      } else {
+        xx = 0
+      }
+
+      this.$animate.bufferTransition(el, {'transform': `translate(${xx}px,0px)`}, () => {
+        // if (target === 0) {
+        //   el.classList.remove('moved')
+        // }
+
+      })
+      // if (e.direction === 'Left') {
+      //   this.tabbarIndex++
+      //   if (this.tabbarIndex > 3) {
+      //     this.tabbarIndex = 3
+      //   }
+      // } else if (e.direction === 'Right') {
+      //   this.tabbarIndex--
+      //   if (this.tabbarIndex < 1) {
+      //     this.tabbarIndex = 1
+      //   }
+      // }
     },
     fetchData () {
       this.$store.dispatch('getDetail', this.id).then(res => {
         this.productDetail = res.data.productDetail
-      }).catch(res => {
-        console.log(res)
+      }).catch(err => {
+        console.log(err)
+        if (err.code === 4040) {
+          this.$toast('不存在该商品')
+          // this.$router.go(-1);
+        } else {
+          this.$toast(SERVER_ERROR_TEXT)
+        }
       })
     },
     addCart () {
@@ -362,10 +439,13 @@ export default {
         duration: 1000})
     },
     buyNow () {
-      this.$store.dispatch('singleBuy', {id: this.id, quantity: this.quantity}).then(res => {
-        this.$router.replace(`/orderDetail/${this.id}`)
-      }).catch(res => {
-        this.$messagebox.alert('出错了')
+      this.$indicator.open({text: WAIT_TEXT, spinnerType: 'fading-circle'})
+      this.$store.dispatch('order/singleBuy', {id: this.id, quantity: this.quantity}).then(res => {
+        this.$indicator.close()
+        this.$router.push(`/orderDetail/${this.id}`)
+      }).catch(err => {
+        this.$indicator.close()
+        this.handleError(err)
       })
     }
 

@@ -1,18 +1,18 @@
 <template>
   <footer class="footer flex flex-row">
-      <div class="footer-item" :class="{'current':current=='/home'}" @click="switchItem('home')">
+      <div class="footer-item" :class="{'current':current=='/home'}" @touchend="switchItem('home')">
           <i class="iconfont icon-shouye"></i>
           <span class="footer-txt">点点汇</span>
       </div>
-      <div class="footer-item" :class="{'current':current=='/category'}" @click="switchItem('category')">
+      <div class="footer-item" :class="{'current':current=='/category'}" @touchend="switchItem('category')">
           <i class="iconfont icon-leimupinleifenleileibie"></i>
           <span class="footer-txt">类别</span>
       </div>
-      <div class="footer-item" :class="{'current':current=='/cart'}" @click="switchItem('cart')">
+      <div class="footer-item" :class="{'current':current=='/cart'}" @touchend="switchItem('cart')">
           <i class="iconfont icon-gouwuche"></i>
           <span class="footer-txt">购物袋</span>
       </div>
-      <div class="footer-item" :class="{'current':current=='/profile'}" @click="switchItem('profile')">
+      <div class="footer-item" :class="{'current':current=='/profile'}" @touchend="switchItem('profile')">
           <i class="iconfont icon-denglu"></i>
           <span class="footer-txt">个人</span>
       </div>

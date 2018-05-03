@@ -37,6 +37,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'jsencrypt$':'jsencrypt/bin/jsencrypt.min.js',
     }
   },
   module: {

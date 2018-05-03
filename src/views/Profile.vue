@@ -2,29 +2,30 @@
   <div class="page full flex flex-col proile">
     <mt-header title="个人中心" class="header"></mt-header>
     <div class="proile-main flex flex-col">
-      <simple-scroll   class="scroll-list"  direction="vertical">
-         <div class="item_content">
+      <simple-scroll  v-if="!loading"  class="scroll-list"  direction="vertical">
+         <div class="item_content flex">
             <div class="item_left">
               <img :src="userInfo.headimgurl">
             </div>
-            <div class="item_right">
+            <div class="item_right ">
                 <p class="item_name">昵称 {{userInfo.nickname}}</p>
                 <p>性别 {{userInfo.sex | sex}}</p>
                 <p>城市 {{userInfo.city}}</p>
+                <mt-button class="exit" @click.native="handleExit()">安全退出</mt-button>
             </div>
-           <mt-button class="exit" @click="handleExit()">安全退出</mt-button>
+
          </div>
         <div class="item_list flex-row flex">
           <div @click="pagePush('/point')">
-            <p><span class="font-15">{{point}}</span>分</p>
+            <p><span class="font-15">{{assets.points}}</span>分</p>
             <p class="font-15">积分</p>
           </div>
           <div @click="pagePush('/coupons')">
-            <p><span class="font-15">{{coupons}}</span>张</p>
+            <p><span class="font-15">{{assets.tickets}}</span>张</p>
             <p class="font-15">票券</p>
           </div>
           <div @click="pagePush('/balance')">
-            <p><span class="font-15">{{balance}}</span>元</p>
+            <p><span class="font-15">{{assets.balances}}</span>元</p>
             <p class="font-15">余额</p>
           </div>
         </div>
@@ -47,6 +48,7 @@
           </div>
         </div>
         </simple-scroll>
+        <data-empty v-else></data-empty>
       </div>
 
     <!--<div class="cart-top">-->
@@ -84,7 +86,7 @@
   .item_content{height: 160px;overflow: hidden;width: 750px;}
   .item_left{width: 120px;height: 120px;overflow: hidden;border-radius: 120px;margin-left: 40px;margin-top: 20px;float: left}
   .item_left img{width: 120px;height: 120px;overflow: hidden;border-radius: 120px;}
-  .item_right{float: left;display: flex;justify-content: center; flex-flow: column;height: 160px;color: #666;font-size: 12px;margin-left: 50px;}
+  .item_right{ flex:1; height: 160px;color: #666;font-size: 12px;margin-left: 50px;}
   .item_right p{line-height: 40px;}
   .item_name{font-size: $gutter;color: #000;}
   .item_list{margin-top: 40px;}
@@ -100,65 +102,54 @@
 </style>
 <script>
 
-  import {LOGIN_SESSION_KEY, LOGIN_RETURN_KEY,USER_INFO_KEY } from '@/var';
-  import { mapState,mapGetters ,mapMutations, mapActions } from 'vuex';
+import {LOGIN_SESSION_KEY, LOGIN_RETURN_KEY, USER_INFO_KEY, SERVER_ERROR_TEXT } from '@/var'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import api from '@/api'
 
-  export default {
-    name: 'profile',
-    data () {
-      return {
-        loading:true,
-        cartList:[],
-        part:'市场部',
-        point:100,
-        coupons:10,
-        balance:10,
-        phone:15253545122,
-        addressDiscribe:'公司地址'
-      }
-    },
-    computed: {
-      ...mapGetters(['userInfo']),
-    },
-    created(){
-
-      //console.log(this.userInfo);
-      // this.getCartList().then(res=>{
-      //
-      //   this.loading=false;
-      //   console.log(this.list);
-      //   console.log(this.totalPrice);
-      //   //
-      // })
-    },
-    methods:{
-      ...mapMutations(['resetUserInfo']),
-      handleDetail(id){
-
-        this.pagePush({ path: `/detail/${id}`});
-
+export default {
+  name: 'profile',
+  data () {
+    return {
+      loading: true,
+      assets: {
+        points: 0,
+        tickets: 0,
+        balances: 0
       },
-      handleExit(){
-
-        this.$messagebox({
-          title: '提示',
-          message: '确定退出?',
-          showCancelButton: true
-        }).then(_=>{
-            this.$cookies.remove(LOGIN_SESSION_KEY);
-            this.resetUserInfo();
-            location.replace(location.href);
-        });
-      },
-      handleClick2(){
-
-        this.pagePush('/wallet');
-      },
-      handleAddressPage(){
-          console.log(this)
-         // this.$router.push('/address')
-      }
-
+      addressDiscribe: '公司地址'
     }
+  },
+  computed: {
+    ...mapState(['token']),
+    ...mapGetters(['userInfo'])
+  },
+  created () {
+    if (this.token) {
+      api.getProfile(this.token).then(res => {
+        this.loading = false
+        this.setUserInfo(res.data.wechat)
+        this.assets.points = res.data.assets.points
+        this.assets.tickets = res.data.assets.tickets
+        this.assets.balances = res.data.assets.points
+      }).catch(err => {
+        this.handleError(err);
+      })
+    }
+  },
+  methods: {
+    ...mapMutations(['setUserInfo', 'resetUserInfo']),
+    handleExit () {
+      this.$messagebox({
+        title: '提示',
+        message: '确定退出?',
+        showCancelButton: true
+      }).then(res => {
+        if (res === 'confirm') {
+          this.handleSaveOut()
+        }
+      })
+    }
+
   }
+}
 </script>

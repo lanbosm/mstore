@@ -1,12 +1,10 @@
 <template>
   <div class="page full flex flex-col login" :class="{'show':!isLogin}">
     <mt-header title="登录">
-
-        <mt-button icon="back" @click="cancelLogin()">返回</mt-button>
-
+       <mt-button icon="back" slot="left" @click="cancelLogin()">返回</mt-button>
     </mt-header>
     <div class="login-main">
-      <mt-field label="用户名" placeholder="请输入用户名" v-model="username"></mt-field>
+      <mt-field  label="用户名" placeholder="请输入用户名" v-model="username"></mt-field>
       <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
       <mt-button size="large" class="btn login-btn"  @click.native="handleLogin()">登录</mt-button>
       <mt-button size="large" class="btn wxlogin-btn" @click.native="handleWxLogin()">一键授权</mt-button>
@@ -25,73 +23,86 @@
 </style>
 <script>
 
-
-import {LOGIN_SESSION_KEY, LOGIN_RETURN_KEY } from '@/var';
-import { mapState,mapGetters ,mapMutations, mapActions } from 'vuex';
-
+import {LOGIN_SESSION_KEY, LOGIN_RETURN_KEY, LOGIN_WAIT_TEXT, SERVER_ERROR_TEXT } from '@/var'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import util from '@/util'
 
 export default {
   name: 'login',
   data () {
     return {
-      username:'',
-      password:'',
-      isLogin:null
+      username: '',
+      password: '',
+      isLogin: null
     }
   },
-  created(){
-
-    if(this.$route.query.redirect){
-        localStorage.setItem(LOGIN_RETURN_KEY,this.$route.query.redirect);
+  created () {
+    if (this.$route.query.redirect) {
+      util.setStorage(LOGIN_RETURN_KEY, this.$route.query.redirect)
     }
-    var sid=location.hash.substring(1,window.location.hash.length-1)
-    if(sid){
-
-      this.$cookies.set(LOGIN_SESSION_KEY,sid);
-
-      this.getUserInfo().then(_=>{
-          this.handleLoginSuccess();
-      }).catch(err=>{
-        if(err.response && err.response.status==400){
-          this.wxAuth();
-        }else{
-          this.handleLoginFail();
+    var sid = location.hash.substring(1, window.location.hash.length - 1)
+    if (sid) {
+      this.$cookies.set(LOGIN_SESSION_KEY, sid)
+      this.wxAuth().then(_ => {
+        this.handleLoginSuccess()
+      }).catch(err => {
+        if (err.response && err.response.status == 400) {
+          this.wxLogin()
+        } else {
+          this.handleLoginFail()
         }
-      });
+      })
     }
+    this.intallJSEncrypt()
   },
-  mounted(){
-    this.isLogin=this.$cookies.get(LOGIN_SESSION_KEY);
+  mounted () {
+    this.isLogin = this.$cookies.get(LOGIN_SESSION_KEY)
   },
-  methods:{
-    ...mapActions('auth', ['wxAuth','getUserInfo']),
-    cancelLogin(){
-      localStorage.removeItem(LOGIN_RETURN_KEY);
-      this.$router.go(-1);
+  methods: {
+    ...mapMutations('auth', ['setAuth']),
+    ...mapActions('auth', ['intallJSEncrypt', 'passAuth', 'wxAuth', 'wxLogin']),
+    cancelLogin () {
+      util.rmStorage(LOGIN_RETURN_KEY)
+      this.$router.go(-1)
     },
-    handleLogin(){
-        if(!this.username|| !this.password) {
-          this.$toast('用户名密码不正确');
-          return;
+    handleLogin () {
+      if (!this.username || !this.password) {
+        this.$toast('用户名密码不正确')
+        return
+      }
+      this.$indicator.open({text: LOGIN_WAIT_TEXT, spinnerType: 'fading-circle'})
+      this.passAuth({username: this.username, password: this.password}).then(res => {
+        this.$indicator.close()
+        this.handleLoginSuccess()
+      }).catch(err => {
+        this.$indicator.close()
+        if (err.code === 2030 || err.code === 4000) {
+          this.$toast('用户名密码不正确')
+        } else {
+          this.$toast(SERVER_ERROR_TEXT)
         }
-       this.$indicator.open('登录中...');
-           setTimeout(_=>{
-             this.$indicator.close();
-             this.$toast('用户名密码不正确');
-       },300)
+      })
     },
-    handleWxLogin(){
-        this.$indicator.open('登录中...');
-        this.wxAuth();
+    handleWxLogin () {
+      this.$indicator.open('登录中...')
+      util.getStorage(LOGIN_RETURN_KEY)
+      this.wxLogin()
     },
-    handleLoginSuccess(){
-         var returnUrl= decodeURIComponent(localStorage.getItem(LOGIN_RETURN_KEY))||'/';
-         localStorage.removeItem(LOGIN_RETURN_KEY);
-         location.replace(returnUrl);
-         //this.$router.replace(returnUrl);
+    handleLoginSuccess () {
+      var returnUrl = util.getStorage(LOGIN_RETURN_KEY)
+      if (returnUrl) {
+        returnUrl = decodeURIComponent(returnUrl)
+      } else {
+        returnUrl = '/'
+      }
+
+      this.$router.replace(returnUrl)
+
+      // util.rmStorage(LOGIN_RETURN_KEY)
+      // this.$router.replace(returnUrl);
     },
-    handleLoginFail(){
-           this.$toast('登录失败');
+    handleLoginFail () {
+      this.$toast('登录失败')
     }
   }
 }

@@ -46,21 +46,22 @@ Vue.mixin(mixins)
 // 滚动
 Vue.prototype.$BScroll = BScroll
 
-
 Vue.use(VueCookies)
 Vue.use(vueTouch)
 Vue.use(vueAnimate)
 
 Vue.config.productionTip = false
 
+import axios from 'axios'
+Vue.prototype.$ajax = axios;
 // Vue.component('fallback', resolve => resolve(require('./components/fallback')));
 
 router.beforeEach(({meta, path, fullPath}, from, next) => {
-
   const {auth = true} = meta      // meta代表的是to中的meta对象，path代表的是to中的path对象
-  var isLogin = Boolean(Vue.prototype.$cookies.get('wechatkey'))
+  // var token = Boolean(Vue.prototype.$cookies.get('wechatkey'))
+  var token = Boolean(util.getStorage('mtoken'));;
   // https://router.vuejs.org/zh-cn/advanced/meta.html
-  if (auth  &&  !isLogin  &&  path !== '/login') {
+  if (auth  &&  !token  &&  path !== '/login') {
     // location.replace('/login?redirect='+encodeURIComponent(fullPath));
     next({ path: '/login', query: { redirect: fullPath }})   //  跳转到login页面
   } else {
