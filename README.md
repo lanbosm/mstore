@@ -15,7 +15,7 @@ vue游戏商城
 - 前端rsa加密 跨域cookie
 
 ## 运行演示
-#### 线上地址：[mstore]( https://lanbosm.github.io/mstore)
+#### 线上地址：[mstore]( http://lanbo.dorodoro-lab.com)
 #### 移动端请扫描下面二维码：
 暂无
 ## Build Setup
