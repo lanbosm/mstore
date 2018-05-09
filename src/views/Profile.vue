@@ -1,6 +1,8 @@
 <template>
   <div class="page full flex flex-col proile">
-    <mt-header title="个人中心" class="header"></mt-header>
+    <my-header title="个人中心" class="header">
+      <div slot="left"></div>
+    </my-header>
     <div class="proile-main flex flex-col">
       <simple-scroll  v-if="!loading"  class="scroll-list"  direction="vertical">
          <div class="item_content flex">
@@ -48,7 +50,7 @@
           </div>
         </div>
         </simple-scroll>
-        <data-empty v-else></data-empty>
+        <data-loading v-else></data-loading>
       </div>
 
     <!--<div class="cart-top">-->
@@ -68,7 +70,6 @@
     overflow:  hidden;
     display: flex;
     flex-direction: column;}
-  .header{background-color: #fff;color: #000;border-bottom: 1px solid #eee;height: 100px}
   .proile-main{
     margin-top: $gutter;
     flex: 1;

@@ -43,6 +43,7 @@ export default {
         await dispatch('intallJSEncrypt')
       }
       var dpw = encryptStr(value.password, api.publicKey)
+
       try {
         var res = await api.passLogin({username: value.username, dpw: dpw , type: 'own'})
 

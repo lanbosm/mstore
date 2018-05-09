@@ -1,22 +1,20 @@
 <template>
-  <div ref="wrapper">
-    <div class="scroll-content" >
-        <div ref="scrollContent">
+  <div ref="wrapper" >
+        <div  :class="'simple-scroller-'+direction"  ref="scroller">
               <slot></slot>
         </div>
-    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  //   import Loading from './loading.vue'
-  // import Bubble from './bubble.vue'
+import AlloyTouch from 'AlloyTouch'
+import Transform from '@/packages/css3transform'
 
-  const COMPONENT_NAME = 'simpleScroll'
-  const DIRECTION_H = 'horizontal'
-  const DIRECTION_V = 'vertical'
+const COMPONENT_NAME = 'simpleScroll'
+const DIRECTION_H = 'horizontal'
+const DIRECTION_V = 'vertical'
 
-  function getRect(el) {
+function getRect (el) {
   if (el instanceof window.SVGElement) {
     let rect = el.getBoundingClientRect()
     return {
@@ -35,160 +33,128 @@
   }
 }
 
-  export default {
-    name: COMPONENT_NAME,
-    props: {
-      data: {
-        type: Array,
-        default: function () {
-          return []
-        }
-      },
-      probeType: {
-        type: Number,
-        default: 1
-      },
-      click: {
-        type: Boolean,
-        default: true
-      },
-      tap:{
-        type: Boolean,
-        default: false
-      },
-      listenScroll: {
-        type: Boolean,
-        default: false
-      },
-      listenBeforeScroll: {
-        type: Boolean,
-        default: false
-      },
-      direction: {
-        type: String,
-        default: ''
-      },
-      startY: {
-        type: Number,
-        default: 0
-      },
-      scrollbar: {
-        type: null,
-        default: false
-      },
-      freeScroll: {
-        type: Boolean,
-          default: false
-      }
+export default {
+  name: COMPONENT_NAME,
+  props: {
+    lock: {
+      type: Boolean,
+      default: false
     },
-    data() {
-      return {
-        beforePullDown: true,
-        isRebounding: false,
-        isPullingDown: false,
-        pulling: false,
-        isPullUpLoad: false,
-        pullUpDirty: true,
-        pullDownStyle: '',
-        bubbleY: 0
-
-      }
+    direction: {
+      type: String,
+      default: DIRECTION_V
     },
-    computed: {
-
+    transform: {
+      type: String,
+      default: 'translateY'
     },
-    created() {
-      this.pullDownInitTop = -50
-
-    },
-    mounted() {
-      setTimeout(() => {
-
-        this.initScroll()
-      }, 20)
-    },
-    methods: {
-      initScroll() {
-
-
-
-        if (!this.$refs.wrapper) {
-          return
-        }
-
-        //
-        if (this.$refs.scrollContent && this.direction === DIRECTION_V) {
-
-           this.$refs.scrollContent.style.minHeight = `${getRect(this.$refs.wrapper).height + 1}px`
-        }
-
-
-
-        if (this.$refs.scrollContent && this.direction === DIRECTION_H) {
-          this.$refs.scrollContent.style.minWidth = `${getRect(this.$refs.wrapper).width + 1}px`
-        }
-
-        let options = {
-          probeType: this.probeType,
-          click: this.click,
-          scrollY: this.freeScroll || this.direction === DIRECTION_V,
-          scrollX: this.freeScroll || this.direction === DIRECTION_H,
-          scrollbar: this.scrollbar,
-          startY: this.startY,
-          freeScroll: this.freeScroll
-        }
-        this.scroll = new this.$BScroll(this.$refs.wrapper, options)
-
-
-        //finishPullDown
-      //  console.log(this.scroll);
-        if (this.listenScroll) {
-          this.scroll.on('scroll', (pos) => {
-            this.$emit('scroll', pos)
-          })
-        }
-        if (this.listenBeforeScroll) {
-          this.scroll.on('beforeScrollStart', () => {
-            this.$emit('beforeScrollStart')
-          })
-        }
-      },
-      disable() {
-        this.scroll && this.scroll.disable()
-      },
-      enable() {
-        this.scroll && this.scroll.enable()
-      },
-      refresh() {
-        this.scroll && this.scroll.refresh()
-      },
-      scrollTo() {
-        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
-      },
-      scrollToElement() {
-        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
-      },
-
-      destroy() {
-        this.scroll.destroy()
-      }
-    },
-    watch: {
-      // data() {
-      //
-      //   setTimeout(() => {
-      //     this.forceUpdate(true)
-      //   }, this.refreshDelay)
-      // }
+    attr: {
+      type: String,
+      default: 'height'
     }
+  },
+  data () {
+    return {
+      cur: 0,
+      scrollAttr: this.attr,
+      scrollTransform: this.transform,
+      scrollVertical: true,
+      observe: null,
+      alloyTouch: null
+    }
+  },
+  computed: {
+
+  },
+  created () {
+
+  },
+  mounted () {
+    this.initScroll()
+  },
+  beforeDestroy () {
+    this.observe.disconnect()
+  },
+  methods: {
+    getMin () {
+      var min = -1 * getRect(this.$refs.scroller)[this.scrollAttr] + getRect(this.$refs.wrapper)[this.scrollAttr]
+      if (min > 0) { min = 0 };
+      return min
+    },
+    initScroll () {
+      var self = this
+
+      if (this.direction === DIRECTION_V) {
+        this.scrollVertical = true
+      }
+
+      if (this.direction === DIRECTION_H) {
+        this.scrollTransform = 'translateX'
+        this.scrollAttr = 'width'
+        this.scrollVertical = false
+      }
+      Transform(this.$refs.scroller, true)
+
+      this.alloyTouch = new AlloyTouch({
+        touch: this.$refs.wrapper, // 反馈触摸的dom
+        vertical: this.scrollVertical, // 不必需，默认是true代表监听竖直方向touch
+        target: this.$refs.scroller, // 运动的对象
+        property: this.scrollTransform, // 被滚动的属性
+        sensitivity: 0.6, // 不必需,触摸区域的灵敏度，默认值为1，可以为负数
+        factor: 1, // 不必需,默认值是1代表touch区域的1px的对应target.y的1
+        min: this.getMin(), // 不必需,滚动属性的最小值
+        bindSelf: true,
+        preventDefault: true,
+        max: 0, // 不必需,滚动属性的最大值
+        change (v) {
+          // console.log(v)
+          if (self.lock) {
+            self.alloyTouch.fixed = true
+          } else {
+            self.alloyTouch.fixed = false
+          }
+          self.cur = v
+        },
+        animationEnd: function (value) {
+          // console.log(value);
+        },
+        pressMove: function (evt, value) {
+          // console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
+          evt.preventDefault()
+        }
+      })
+
+      // https://segmentfault.com/a/1190000012787829
+      this.observe = new MutationObserver(function (mutations, observe) {
+        // console.log(observe);
+        if (mutations[0].type === 'childList') {
+          self.refresh()
+        }
+      })
+      this.observe.observe(this.$refs.scroller, { childList: true, subtree: true})
+    },
+    refresh () {
+      var min = this.getMin()
+      if (min >= this.cur) {
+        this.alloyTouch.to(min)
+      }
+      this.alloyTouch.min = min
+    }
+
+  },
+  watch: {
+
   }
+
+}
 </script>
-
 <style lang="scss" scoped >
-  .scroll-content{
-
+  .simple-scroller-horizontal{
       display: inline-block;
       min-width: 100%;
   }
-
+  .simple-scroller-vertical{
+    display: block;
+    min-width: 100%;
+  }
 </style>

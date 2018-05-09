@@ -140,9 +140,13 @@ export default {
   wxUserInfo () {
     return httpGet(`${server.OPEN_URL}/wechat/oauth2`, null, {withCredentials: true})
   },
+  // 商品分类
+  getCategory (query) {
+    return httpGet(`/category`, query)
+  },
   // 商品详情展示信息
   getShopDetail (id) {
-    return httpGet(`/product/${id}?id=${id}`)
+    return httpGet(`/product/${id}`)
   },
   // 个人信息
   getProfile (auth) {

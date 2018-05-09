@@ -1,86 +1,88 @@
 <template>
   <div class="page full flex flex-col detail">
-    <my-header2>
-      <div class="detail-tabbar">
-        <div class="detail-tabbar-item" :class="{'active':tabbarIndex==1}" @click="tabbarIndex=1">
-          商品
-        </div>
-        <div  class="detail-tabbar-item" :class="{'active':tabbarIndex==2}" @click="tabbarIndex=2">
-          详情
-        </div>
-        <div  class="detail-tabbar-item" :class="{'active':tabbarIndex==3}" @click="tabbarIndex=3">
-          评价
-        </div>
-        <div class="detail-tabbar-line" :class="'line'+tabbarIndex">
-          <div class="slide-line"></div>
-        </div>
-      </div>
-      <div slot="right">分享</div>
-    </my-header2>
-
-    <div class="container-main">
-      <ul :class="'container-tab-ul container-tab-show'+tabbarIndex" v-finger:swipe="{ events:{touchStart:swipeTabStart,touchMove:swipeTabMove,touchEnd:swipeTabEnd}}" >
+    <my-header  ref="header" :title=title class="container-header" :class="{'animated':loadState==1,'glass':headerGlass}">
+        <div slot="right">分享</div>
+    </my-header>
+    <div class="container-main" id="wrapper1"  v-if="loadState==1">
+      <ul ref="scrollUl" :class="'container-tab-ul container-tab-show'+tabbarIndex" v-finger:swipe="{ events:{touchStart:swipeTabStart,touchMove:swipeTabMove,touchEnd:swipeTabEnd}}" >
         <div class="container-tab container-tab-1" >
-          <simple-scroll ref="scroll1" class="scroll-list"  direction="vertical" v-if="productDetail.banner">
+          <div  class="scroll-list" ref="scroll1"  >
             <div class="item-info">
-              <div class="item-info-banner">
-                <img  class="img-responsive" :src='productDetail.banner' />
-              </div>
               <div class="item-info-list">
                 <div class="item-info-list-row title" >
-                  商品名称 <span>{{productDetail.name}}</span>
+                  英雄名称 <span>{{productDetail.name}}</span>
                 </div>
                 <div class="item-info-list-row flex flew-row" >
                   <span class="field price">价格 {{productDetail.price | currency}}</span>
-                  <span class="field stock" >库存 {{productDetail.price }}</span>
+                  <span class="field stock" >库存 {{productDetail.stock}}</span>
                 </div>
                 <div class="item-info-list-row" >
-                  发货地 {{productDetail.city}}
+                  定位： <span class="tag" v-for="role in productDetail.role" :key="role">{{role}}</span>
                 </div>
-                <div class="item-info-list-row"  v-for="n in 20"  :key="n">
-                  一些商品的内容{{n}}
+                <div class="item-info-list-row" v-if="productDetail.detailPicList"  v-for="n in productDetail.rd"  :key="n">
+                   {{productDetail.desc}}
                 </div>
               </div>
             </div>
-          </simple-scroll>
-          <data-empty v-else></data-empty>
+          </div>
+
         </div>
-        <div class="container-tab container-tab-2 " >
-          <simple-scroll   ref="scroll2" class="scroll-list"  direction="vertical" v-if="productDetail.detailPicList">
+        <div class="container-tab container-tab-2" ref="scrollTab2" >
+          <!--v-if="productDetail.detailPicList"-->
+          <div class="scroll-list" ref="scroll2"  >
             <div class="item-pic">
               <ul>
                 <li v-for="item in productDetail.detailPicList" :key="item.id">
-                  <p>
-                    大家在发言中结合自身实际工作提出建议。施芝鸿委员提出，要积极投身到新时代新的伟大进军，努力在新时代展现新气象、新作为；郑建邦常委代表民革中央发言建议，要按照中共十九大有关部署，加快西北地区发展，推动区域协调发展；徐辉常委代表民盟中央发言提出，明确教育战略定位，贯彻“以人民为中心”的发展思想，继续深化教育改革，加快推进教育现代化；李谠常委代表民建中央发言提出，确立清洁能源优先发展战略，加强清洁能源高端装备研发制造，提高清洁能源消纳能力，鼓励清洁能源企业参与“一带一路”能源合作；蔡达峰常委代表民进中央发言表示，
-                  </p>
+                  <p>{{productDetail.desc}}</p>
                   <img class="img-responsive" :src="item">
                 </li>
               </ul>
             </div>
-          </simple-scroll>
-          <data-empty v-else></data-empty>
+          </div>
+          <!--<data-loading v-else></data-loading>-->
         </div>
         <div class="container-tab container-tab-3">
-          <div class="item-evaluate">
-            <simple-scroll  ref="scroll3" class="scroll-list"  direction="vertical" v-if="productDetail.evaluates">
-              <mt-cell v-for="(item,index) in productDetail.evaluates" :title="item.memo" :key="index" >
-                {{item.star}}
-              </mt-cell>
-            </simple-scroll>
-            <data-empty v-else></data-empty>
-          </div>
+            <div  ref="scroll3" class="scroll-list"   v-if="productDetail.evaluates">
+              <div class="item-evaluate">
+                <mt-cell v-for="(item,index) in productDetail.evaluates" :title="item.memo" :key="index" >
+                  {{item.star}}
+                </mt-cell>
+              </div>
+            </div>
+            <data-loading v-else></data-loading>
         </div>
       </ul>
-    </div>
+      <div class="item-banner" ref="banner">
+        <img  class="img-responsive" :src='productDetail.banner' />
+      </div>
+      <div class="container-tab-head" ref="tabbar">
+        <div class="detail-tabbar-item" :class="{'active':tabbarIndex==1}" @click="switchTab(1)">
+          商品
+        </div>
+        <div  class="detail-tabbar-item" :class="{'active':tabbarIndex==2}" @click="switchTab(2)">
+          详情
+        </div>
+        <div  class="detail-tabbar-item" :class="{'active':tabbarIndex==3}" @click="switchTab(3)">
+          评价
+        </div>
+        <div class="detail-tabbar-line" :class="'line'+tabbarIndex">
+          <div class="slide-line" ref="slideLine"></div>
+        </div>
+      </div>
 
+    </div>
+    <data-loading v-else-if="loadState==0"></data-loading>
+    <data-error v-else message="阿狸酱加载不了呜" >
+      <mt-button @click="fetchData">再试一次</mt-button>
+    </data-error>
     <div class="detail-footer flex flex-row">
       <div class="detail-footer-item favorite">
         <i class="iconfont icon-xing" :class="[favorited?'hasfavorite':'unfavorite']" @click="toFavorite()"></i>
         <span class="footer-txt">关注</span>
       </div>
-      <div class="detail-footer-item cart"  @click="pagePush('/cart')">
+      <div class="detail-footer-item cart" :class="{'active':totalPushs>0}"  @click="pagePush('/cart')">
         <i class="iconfont icon-gouwuche"></i>
-        <span class="footer-txt" >购物车</span>
+        <span class="footer-txt"  >购物车({{totalPushs}})</span>
       </div>
       <div class="detail-footer-item addCart" @click="addCart()">
 
@@ -97,15 +99,99 @@
 <style lang="scss" scoped>
 
   .detail{
-    .detail-tabbar {
+    .container-header{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      color: #ffffff;
+      background-color: transparent;
+      border-bottom:none;
+      &.animated{
+        transition: 500ms;
+      }
+    }
 
-      width: 480px;
+    .glass{
+
+      background-color: rgba(0,0,0,0.3);
+    }
+    .container-main{
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+      display: flex;
+      position: relative;
+      .container-tab-ul{
+        top: 380px;
+        position: absolute;
+        bottom: 0;
+        width: 2250px;
+        display: flex;
+        flex-direction: row;
+        &.container-tab-show1{
+
+          transform: translateX(0);
+
+        }
+        &.container-tab-show2{
+
+          transform: translateX(-750px);
+
+        }
+        &.container-tab-show3{
+
+          transform: translateX(-1500px);
+
+        }
+      }
+      .container-tab{
+        width: 750px;
+        position: absolute;
+      }
+      .container-tab-1{
+        top:0;
+        bottom: 0;
+        left: 0px;
+
+      }
+      .container-tab-2{
+        top:0;
+        bottom: 0;
+        left:750px;
+
+      }
+      .container-tab-3{
+        top:0;
+        bottom: 0;
+        left:1500px;
+
+      }
+    }
+
+    .scroll-list{
+      background-color: #ffffff;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      backface-visibility: hidden;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      will-change: transform;
+
+    }
+
+    .container-tab-head {
+
+      width: 750px;
       height: 80px;
       display: flex;
       flex-direction: row;
       border-radius: 5px;
-      position: relative;
-
+      position: absolute;
+      top: 300px;
+      background-color: #f6f8fa;
       .detail-tabbar-item {
         color: $text-light-color;
         display: flex;
@@ -128,91 +214,28 @@
           width: 40px;
           height: 5px;
           position: absolute;
-          left: -40px;
+          left: 0px;
           background-color: $primary-color;
-          transition: all 100ms;
           border-radius: 5px;
-
+          transform: translateX(104px);
         }
 
-        &.line1 .slide-line{
-          transform: translateX(100px);
-        }
-
-        &.line2 .slide-line{
-          transform: translateX(260px);
-        }
-
-        &.line3 .slide-line{
-          transform: translateX(420px);
-        }
       }
 
     }
 
-    .container-main{
-      flex: 1;
+    .item-banner{
+      height: 360px;
       overflow: hidden;
-      flex-direction: column;
-      display: flex;
-      .container-tab-ul{
-        position: relative;
-        overflow: hidden;
-        flex: 1;
-        width: 2250px;
-        display: flex;
-        flex-direction: row;
-        &.container-tab-show1{
-
-          transform: translateX(0);
-
-        }
-        &.container-tab-show2{
-
-          transform: translateX(-750px);
-
-        }
-        &.container-tab-show3{
-
-          transform: translateX(-1500px);
-
-        }
-      }
-      .container-tab{
-        width: 750px;
-        flex:1;
-        position: relative;
-      }
-      .container-tab-1{
-        top:0;
-        left: 0px;
-
-      }
-      .container-tab-2{
-        top:0;
-        left:0px;
-
-      }
-      .container-tab-3{
-        top:0;
-        left:0px;
-
-      }
-    }
-
-    .scroll-list{
-      @include grid-fill(0) ;
+      transform-origin: 50% 0%;
+      background-color: #333333;
       position: absolute;
-      overflow: hidden;
+      left: 0;
+      top: 0;
+      right: 0;
     }
-
     //商品
     .item-info{
-
-      .item-info-banner{
-        height: 300px;
-        overflow: hidden;
-      }
 
       .item-info-list{
         margin-top: $gutter;
@@ -223,6 +246,13 @@
           padding-left: $gutter; padding-right: $gutter;
           padding-top: $gutter;
           padding-bottom: $gutter;
+          .tag{
+            @include padding(5px,10px,5px,10px);
+            background-color: $primary-color;
+            color: #ffffff;
+            border-radius: 5px;
+            margin-left: $gutter;
+          }
           .price{
               font-size: 16px;
               align-self: flex-start;
@@ -285,6 +315,9 @@
       }
       &.cart{
         flex: 1;
+        &.active{
+         color: $pink;
+        }
       }
       &.addCart{
         flex: 2;
@@ -305,21 +338,35 @@
 <script>
 
 import {WAIT_TEXT, SERVER_ERROR_TEXT} from '@/var'
+import AlloyTouch from 'AlloyTouch'
+import Transform from '@/packages/css3transform'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'detail',
   data () {
     return {
+      loadState: 0,
+      title: '详情',
       tabbarIndex: 1,
       productDetail: {},
       id: null,
       quantity: 1,
-      favorited: false
+      favorited: false,
+      activeScroll: [],
+      scrollY: 0,
+      headerGlass: false,
+      keepHeader: 0,
+      minTransalteY: 0,
+      press: false
     }
   },
   created () {
     this.id = this.$route.params.id
     this.fetchData()
+  },
+  computed: {
+    ...mapGetters('cart', ['totalPushs'])
   },
   mounted () {
 
@@ -327,103 +374,225 @@ export default {
   watch: {
 
     tabbarIndex (val) {
-      this.$nextTick(_ => {
-        this.$refs[`scroll${val}`].refresh()
+      var scroll = this.$refs[`scroll${val}`]
+      var find = false
+      this.activeScroll.forEach(ele => {
+        if (ele.target === scroll) {
+          find = true
+        }
       })
+      if (!find) {
+        this.$nextTick(_ => {
+          console.log('添加')
+          this.activeScroll.push(this.initScroll(scroll))
+        })
+      }
     }
 
   },
   methods: {
+    ...mapActions('cart', ['cartPush']),
     swipeTabStart (e, el) {
-
+       this.press = false
     },
     swipeTabMove (e, el) {
-      // e.preventDefault();
-
+      e.preventDefault()
+      if (this.loadState != 1) {
+        return
+      }
       var canSwipeX = e.swipeAxis === 'X'
-      var canSwipeY = e.swipeAxis === 'Y'
-
       if (!canSwipeX) {
-        this.$refs[`scroll` + this.tabbarIndex].enable()
         return false
       }
 
-      if (!canSwipeY) {
-        this.$refs[`scroll` + this.tabbarIndex].disable()
-      }
-      var maxScrollLeft = el.getBoundingClientRect().width
-      var scrollLeft = el.getBoundingClientRect().left
+      var maxScrollLeft = this.getRect(el).width
+      var scrollLeft = this.getRect(el).left
+      var lineLeft = this.getRect(this.$refs.slideLine).left
+      var tabWidth = this.getRect(this.$refs.scrollUl).width / 3
+
       // 牵引力
       scrollLeft += e.deltaX * 1
 
-      var x = el.getBoundingClientRect().x
+      // console.log(lineLeft)
+      // 牵引力
+      lineLeft -= e.deltaX * 0.3
 
-      if (x <= -560) {
-        this.tabbarIndex = 3
-      } else if (x <= -185) {
-        this.tabbarIndex = 2
-      } else {
-        this.tabbarIndex = 1
-      }
-
+      // 添加反阻力
       if (scrollLeft > 0) {
-        scrollLeft -= (e.deltaX / 2 * 1.5)
-      } else if (Math.abs(scrollLeft) > maxScrollLeft - maxScrollLeft/3) {
-        // 添加反阻力
-        scrollLeft -= (e.deltaX / 2 * 1.5)
+        scrollLeft -= (e.deltaX * 0.8)
+      } else if (Math.abs(scrollLeft) > maxScrollLeft * 0.8) {
+        scrollLeft -= (e.deltaX * 0.8)
+      }
+      // 添加反阻力
+      if (lineLeft < 52) {
+        lineLeft += (e.deltaX * 0.3)
+      } else if (Math.abs(lineLeft) > 302) {
+        lineLeft += (e.deltaX * 0.3)
       }
 
       this.$animate.setCSS(el, {'transform': `translate(${scrollLeft}px,0px)`})
-    },
-    swipeTabEnd (e, el) {
-      this.$refs[`scroll` + this.tabbarIndex].enable()
+      this.$animate.setCSS(this.$refs.slideLine, {'transform': `translate(${lineLeft}px,0px)`})
 
-      var x = el.getBoundingClientRect().x
-      var xx = 0
-
-      if (x <= -560) {
-        xx = -750
-      } else if (x <= -185) {
-        xx = -375
-      } else {
-        xx = 0
+      if (e.distanceX < -30 && !this.press) {
+        this.press = true
+        this.tabbarIndex++
+        this.tabbarIndex = this.tabbarIndex < 3 ? this.tabbarIndex : 3
+      } else if (e.distanceX > 30 && !this.press) {
+        this.press = true
+        this.tabbarIndex--
+        this.tabbarIndex = this.tabbarIndex < 1 ? 1 : this.tabbarIndex
       }
 
-      this.$animate.bufferTransition(el, {'transform': `translate(${xx}px,0px)`}, () => {
-        // if (target === 0) {
-        //   el.classList.remove('moved')
-        // }
+    },
+    swipeTabEnd (e, el) {
+      e.preventDefault()
+      if (this.loadState !== 1) {
+        return
+      }
+      this.press = false
+      this.switchTab()
+    },
+    switchTab (n) {
+      var tabWidth = this.getRect(this.$refs.scrollUl).width / 3
+      var tabUnit = tabWidth / 3
+      var lineleft = tabUnit / 2 - this.getRect(this.$refs.slideLine).width / 2
 
+      if (n) {
+        this.tabbarIndex = n
+      }
+      if (this.tabbarIndex === 3) {
+        this.$animate.bufferTransition(this.$refs.scrollUl, {'transform': `translate(-${tabWidth * 2}px,0px)`})
+        this.$animate.bufferTransition(this.$refs.slideLine, {'transform': `translate(${tabUnit * 2 + lineleft}px,0px)`})
+      } else if (this.tabbarIndex === 2) {
+        this.$animate.bufferTransition(this.$refs.scrollUl, {'transform': `translate(-${tabWidth}px,0px)`})
+        this.$animate.bufferTransition(this.$refs.slideLine, {'transform': `translate(${tabUnit * 1 + lineleft}px,0px)`})
+      } else {
+        this.$animate.bufferTransition(this.$refs.scrollUl, {'transform': `translate(0px,0px)`})
+        this.$animate.bufferTransition(this.$refs.slideLine, {'transform': `translate(${tabUnit * 0 + lineleft}px,0px)`})
+      }
+    },
+    getMin (target) {
+      var min = -1 * this.getRect(target)['height'] + this.getRect(this.$refs.scrollUl)['height']
+      if (min > 0) { min = 0 };
+      return min
+    },
+    initScroll (target) {
+      var target = target
+      var self = this
+
+      const banner = this.$refs.banner
+      const tabBar = this.$refs.tabbar
+
+      const keepHeader = this.keepHeader || this.getRect(tabBar).top - this.getRect(this.$refs.header.$el).height
+      this.keepHeader = keepHeader
+
+      const minTransalteY = this.minTransalteY || this.getRect(banner).height - this.getRect(tabBar).top
+      this.minTransalteY = minTransalteY
+
+      const bannerH = this.getRect(this.$refs.banner).height
+
+      Transform(target, true)
+      Transform(banner, true)
+      Transform(tabBar, true)
+
+      return new AlloyTouch({
+        touch: target.parentNode, // 反馈触摸的dom
+        vertical: true, // 不必需，默认是true代表监听竖直方向touch
+        target: target, // 运动的对象
+        property: 'translateY', // 被滚动的属性
+        sensitivity: 1, // 不必需,触摸区域的灵敏度，默认值为1，可以为负数
+        factor: 1, // 不必需,默认值是1代表touch区域的1px的对应target.y的1
+        min: this.getMin(target), // 不必需,滚动属性的最小值
+        bindSelf: false,
+        maxSpeed: 2,
+        initialValue: this.scrollY,
+        max: 0, // 不必需,滚动属性的最大值
+        touchMove (e, pageY) {
+          if (this.y2 == null) return
+          if (this.y2 <= 0 && pageY <= this.min) {
+            this.to(this.min)
+          }
+          // if (this.y2 > window.innerHeight - 1) {
+          //   this.to(0)
+          // }
+        },
+        change (v) {
+          // 毛玻璃特效
+          if (v < -keepHeader) {
+            self.headerGlass = true
+            banner.firstChild.style.webkitFilter = 'blur(4px)'
+          } else {
+            self.headerGlass = false
+            banner.firstChild.style.webkitFilter = 'none'
+          }
+
+          let translateY = Math.max(-keepHeader, v)
+          self.scrollY = translateY
+
+          let scale = 1
+          const percent = Math.abs(v / bannerH)
+          if (v > 0) {
+            scale = 1 + percent
+          } else {
+            scale = 1
+          }
+          if (translateY > minTransalteY) {
+            banner.scaleY = banner.scaleX = scale - minTransalteY / bannerH
+          } else {
+            banner.scaleY = banner.scaleX = 1
+          }
+          tabBar.translateY = translateY
+          if (translateY < 0) { // 上拉
+            banner.translateY = translateY
+          } else {
+            banner.translateY = 0
+          }
+          // 通知其他组件我滚动了
+          self.activeScroll.forEach((ele, index) => {
+            if (ele.target !== target) {
+              ele.target.translateY = self.scrollY
+            }
+          })
+        },
+        animationEnd: function (value) {
+          // console.log(value);
+        }
       })
-      // if (e.direction === 'Left') {
-      //   this.tabbarIndex++
-      //   if (this.tabbarIndex > 3) {
-      //     this.tabbarIndex = 3
-      //   }
-      // } else if (e.direction === 'Right') {
-      //   this.tabbarIndex--
-      //   if (this.tabbarIndex < 1) {
-      //     this.tabbarIndex = 1
-      //   }
-      // }
     },
     fetchData () {
       this.$store.dispatch('getDetail', this.id).then(res => {
         this.productDetail = res.data.productDetail
+        this.loadState = 1
+        // setTimeout(_ => {
+        this.$nextTick(_ => {
+          this.activeScroll.push(this.initScroll(this.$refs.scroll1))
+        })
+        // }, 500)
       }).catch(err => {
         console.log(err)
+        this.loadState = 2
         if (err.code === 4040) {
           this.$toast('不存在该商品')
-          // this.$router.go(-1);
         } else {
           this.$toast(SERVER_ERROR_TEXT)
         }
       })
     },
     addCart () {
+      this.cartPush({
+        id: this.productDetail.id,
+        cid: this.productDetail.cid,
+        pingpai: this.productDetail.pingpai,
+        name: this.productDetail.name,
+        spec: '史诗皮肤',
+        price: this.productDetail.price,
+        quantity: 1,
+        image: this.productDetail.url})
+
       this.$toast({ message: '添加成功',
         position: 'bottom',
         duration: 1000})
+      // this.addCart()
     },
     toFavorite () {
       let message = '关注成功'

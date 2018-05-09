@@ -6,7 +6,6 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   methods: {
-    ...mapMutations(['resetUserInfo2']),
     pageBack () {
       this.$router.go(-1)
     },
@@ -73,6 +72,24 @@ export default {
       var Range = Max - Min
       var Rand = Math.random()
       return (Min + Math.round(Rand * Range))
+    },
+    getRect (el) {
+      if (el.getBoundingClientRect) {
+        let rect = el.getBoundingClientRect()
+        return {
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height
+        }
+      } else {
+        return {
+          top: el.offsetTop,
+          left: el.offsetLeft,
+          width: el.offsetWidth,
+          height: el.offsetHeight
+        }
+      }
     }
   }
 }

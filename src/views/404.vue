@@ -1,7 +1,8 @@
 <template>
   <div class="page full flex flex-col nopage">
-      404
-    <mt-button @click="handleClick">点我回去</mt-button>
+    <data-error >
+      <mt-button @click="handleClick">点我回去</mt-button>
+    </data-error>
   </div>
 </template>
 

@@ -3,7 +3,7 @@
  */
 export default {
   OPEN_URL: 'http://ngrok.dorodoro-lab.com/cgi-bin',
-  API_URL: 'http://ngrok.dorodoro-lab.com/mstore/api',
+  API_URL: 'http://192.168.199.248:8081/mstore/api',
   REQ_DELAY: 5000,
   TOKEN: '',
   PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----\n' +

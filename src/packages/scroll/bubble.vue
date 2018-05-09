@@ -88,7 +88,7 @@ export default {
         y: headPointR.y + this.distance / 2
       }
       ctx.quadraticCurveTo(controlPointR.x, controlPointR.y, headPointR.x, headPointR.y)
-      ctx.fillStyle = '#53a2e3'
+      ctx.fillStyle = '#6864e3'
       ctx.fill()
       ctx.strokeStyle = '#ffffff'
       ctx.stroke()

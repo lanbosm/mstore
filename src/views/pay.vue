@@ -6,12 +6,12 @@
            <div class="item_top" >
              <div class="item_left">
                <i class="iconfont icon-dizhi"></i>
-               <div class="item_order">
+               <div class="item_order" >
                     <p class="item_name font-14">线下到店/自提</p>
-                    <p class="item_num font-12">上海市徐虎啊家具啊家具啊家具啊</p>
+                    <p class="item_num font-12" >上海市漕宝路七宝某小区xxx号</p>
                </div>
              </div>
-             <div class="item_right">
+             <div class="item_right"  @click="pagePush('/address')">
                   <i class="iconfont icon-mjiantou"></i>
              </div>
            </div>
@@ -105,7 +105,7 @@
             </div>
             </simple-scroll>
         </div>
-        <div class="paybtn">
+        <div class="paybtn" @click="toPay">
             立即支付
         </div>
   </div>
@@ -151,6 +151,11 @@ export default {
     }
   },
   methods:{
+    toPay(){
+      this.$messagebox.alert('暂未开放').then(res => {
+
+      })
+    },
     selectBrand() {
 
     }

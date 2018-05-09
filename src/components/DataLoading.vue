@@ -1,21 +1,19 @@
 <template>
-  <div class="page full flex flex-col dataEmpty">
+  <div class="flex flex-col dataLoading">
 
   </div>
 </template>
 
 <script>
 export default {
-  name: 'dataEmpty',
+  name: 'dataLoading',
   data () {
     return {
 
     }
   },
   methods:{
-    handleClick(){
-       this.$router.replace('/home');
-    }
+
 
   }
 }
@@ -24,9 +22,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  .dataEmpty{
-     background:url('//origin.dorodoro-lab.com/static/images/dataempty.jpg') repeat-y ;
+  .dataLoading{
+     flex: 1;
+     background: url("../assets/images/loading.jpg");
      background-size: 100%;
+     background-repeat: repeat-y;
      background-position: 50% 50%;
   }
 </style>

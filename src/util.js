@@ -7,10 +7,10 @@ var isAndroid = (/android/gi).test(navigator.appVersion)
 
 var uzStorage = function () {
   var ls = window.localStorage
-
-  if (isAndroid && os) {
-    ls = os.localStorage()
-  }
+  // var os=window;
+  // if (isAndroid && os) {
+  //   ls = os.localStorage()
+  // }
 
   return ls
 }

@@ -1,8 +1,6 @@
 <template>
   <div class="page full flex flex-col login" :class="{'show':!isLogin}">
-    <mt-header title="登录">
-       <mt-button icon="back" slot="left" @click="cancelLogin()">返回</mt-button>
-    </mt-header>
+    <my-header  title="登录"> </my-header>
     <div class="login-main">
       <mt-field  label="用户名" placeholder="请输入用户名" v-model="username"></mt-field>
       <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
@@ -13,12 +11,20 @@
   </div>
 
 </template>
-<style>
+<style lang="scss" scoped>
   .login{
     opacity: 0;
   }
   .login.show{
     opacity: 1;
+  }
+  .login-main{
+    color: $primary-color;
+
+  }
+  .login-btn{
+    border-color:$primary-color;
+    color: $primary-color;
   }
 </style>
 <script>
@@ -42,6 +48,7 @@ export default {
     }
     var sid = location.hash.substring(1, window.location.hash.length - 1)
     if (sid) {
+      // alert(sid);
       this.$cookies.set(LOGIN_SESSION_KEY, sid)
       this.wxAuth().then(_ => {
         this.handleLoginSuccess()
@@ -52,11 +59,16 @@ export default {
           this.handleLoginFail()
         }
       })
+    }else{
+      this.$cookies.remove(LOGIN_SESSION_KEY)
+      this.isLogin=false;
     }
     this.intallJSEncrypt()
+
+    this.isLogin = this.$cookies.get(LOGIN_SESSION_KEY)
   },
   mounted () {
-    this.isLogin = this.$cookies.get(LOGIN_SESSION_KEY)
+
   },
   methods: {
     ...mapMutations('auth', ['setAuth']),
@@ -71,6 +83,7 @@ export default {
         return
       }
       this.$indicator.open({text: LOGIN_WAIT_TEXT, spinnerType: 'fading-circle'})
+
       this.passAuth({username: this.username, password: this.password}).then(res => {
         this.$indicator.close()
         this.handleLoginSuccess()

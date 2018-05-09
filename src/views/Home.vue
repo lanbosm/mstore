@@ -8,7 +8,7 @@
             <div class="top-banner-container" v-if='data.topBanner'>
                 <img class="img-responsive" :src="data.topBanner.url" />
             </div>
-            <data-empty v-else></data-empty>
+            <data-loading v-else></data-loading>
         </div>
         <!-- home-list start -->
         <div class="home-list" >
@@ -17,7 +17,7 @@
 
             <div class="banner-container" v-if='data.banner'>
               <div class="banner-slide" :class="'banner-slide'+index" v-for="(item,index) in data.banner" :style="bannerStyle[index]" v-finger:swipe=" {events:{touchEnd:changeIndex}}">
-                <img class="img-responsive" :src="item.url" />
+                <img class="img-responsive" :src="item.url" @click="pagePush({ path:`/detail/${item.id}`})" />
               </div>
               <div class="banner-title" >
                     <div class="p">{{data.banner[bannerIndex].title}}</div>
@@ -26,7 +26,7 @@
                     <span class="right-icon">></span>
               </div>
             </div>
-            <data-empty v-else></data-empty>
+            <data-loading v-else></data-loading>
           </div>
 
           <div class="home-tabbar">
@@ -50,11 +50,9 @@
             </div>
             <simple-scroll v-if="data.homesession1" :click=innerClick ref="jingxuanScroll"  class="home-session-con"  direction="horizontal">
                 <ul >
-                  <li class="jingxuan-item" v-for="index in 4" :key="index" @click="pagePush({ path: `/detail/${index}`})">
+                  <li class="jingxuan-item" v-for="index in 4" :key="index" @click="pagePush({ path:'/detail/10011'})">
 
-                    <duo-pin-box class="tuijian"  >
-
-                    </duo-pin-box>
+                    <duo-pin-box class="tuijian"  ></duo-pin-box>
                       <!--<div class="dl">-->
                         <!--<div class="dt">-->
                             <!--<img class="img-responsive" :src='data.homesession1[0].url'/>-->
@@ -70,23 +68,22 @@
                   </li>
                 </ul>
             </simple-scroll>
-            <data-empty v-else></data-empty>
+            <data-loading v-else></data-loading>
           </div>
           <div class="home-session-2">
             <div class="home-session-title" @click="pagePush('/discount')">
                 多拼多惠
             </div>
             <simple-scroll  v-if="data.homesession2" :click=innerClick  ref="duopingScroll"  class="home-session-con"  direction="horizontal">
-
                 <ul >
-                  <li class="duoping-item" v-for="index in 3" :key="index" @click="pagePush({ path: `/detail/${index}`})">
+                  <li class="duoping-item" v-for="index in 3" :key="index" @click="pagePush({ path:'/detail/10011'})">
                     <duo-pin-box class="duopin"  ></duo-pin-box>
 
                   </li>
                 </ul>
               </simple-scroll>
 
-            <data-empty v-else></data-empty>
+            <data-loading v-else></data-loading>
           </div>
           <div class="home-session-3" >
             <div class="home-session-title">
@@ -101,7 +98,7 @@
                   </li>
                 </ul>
             </simple-scroll>
-            <data-empty v-else></data-empty>
+            <data-loading v-else></data-loading>
           </div>
           <div class="home-session-4">
             <div class="home-session-title">
@@ -109,7 +106,7 @@
             </div>
             <div class="home-session-con" v-if="moredata.length>0">
               <ul>
-                <li class="more-item" v-for="item in moredata" >
+                <li class="more-item" v-for="item in moredata" @click="pagePush({ path:'/detail/10011'})" >
                     <div class="dl">
                       <div class="dt">
                           <img class="img-responsive" :src="item.url"/>
@@ -129,7 +126,7 @@
                 </li>
               </ul>
             </div>
-            <data-empty v-else></data-empty>
+            <data-loading v-else></data-loading>
 
           </div>
         </div>
@@ -751,20 +748,23 @@ export default {
           banner: [{
             title: '阿狸',
             desc: '九尾妖狐',
-            url: '//origin.dorodoro-lab.com/static/images/ali.jpg',
-            price: 300
+            url: 'http://origin.dorodoro-lab.com/static/images/heros/c1001-01.jpg',
+            price: 98,
+            id:10011
           },
           {
             title: '艾瑞莉娅',
             desc: '刀锋意识刀锋意识',
-            url: '//origin.dorodoro-lab.com/static/images/arelia.jpg',
-            price: 400
+            url: 'http://origin.dorodoro-lab.com/static/images/heros/c1002-01.jpg',
+            price: 68,
+            id:10021
           },
           {
-            title: '妹子欣赏',
-            desc: '这是一个妹子妹子的图片',
-            url: '//origin.dorodoro-lab.com/static/images/meizi.jpg',
-            price: 500
+            title: '疾风剑豪',
+            desc: '疾风剑豪',
+            url: 'http://origin.dorodoro-lab.com/static/images/heros/c1001-02.jpg',
+            price: 63,
+            id:10011
           }
           ],
           homesession1: [
@@ -800,7 +800,7 @@ export default {
       let i = 0
       while (i < 8) { // 模拟8条数据
         newlist.moredata.push({
-          url: this.categoryIndex == 0 ? '//origin.dorodoro-lab.com/static/images/mt1.jpg' : '//origin.dorodoro-lab.com/static/images/mt2.jpg',
+          url: this.tabbarIndex == 0 ? 'http://origin.dorodoro-lab.com/static/images/heros/c1001-01.jpg' : 'http://origin.dorodoro-lab.com/static/images/heros/c1001-02.jpg',
           price: 1000 * i,
           pingpai: '商品品牌',
           desc: '商品品描述2商品品描述2商品品描述2商品品描述2商品品描述2'

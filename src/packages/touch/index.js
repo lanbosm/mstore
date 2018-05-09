@@ -223,4 +223,4 @@ vueFinger.install = function (Vue, options) {
   })
 }
 
-module.exports = vueFinger
+export default vueFinger

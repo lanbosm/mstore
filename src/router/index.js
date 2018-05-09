@@ -5,7 +5,13 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history', // history
-
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
     {
       path: '/login', // 微信登录
@@ -57,7 +63,7 @@ export default new Router({
         require(['@/views/Address'], resolve)
       },
       meta: {
-        noPageAnimation: false
+        auth:true
       }
     },
     {
@@ -234,7 +240,7 @@ export default new Router({
         require(['@/views/404'], resolve)
       },
       meta: {
-        noPageAnimation: true
+        noPageAnimation: true,auth:false
       }
     }
     // {

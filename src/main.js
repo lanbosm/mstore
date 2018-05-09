@@ -22,6 +22,7 @@ import VueCookies from 'vue-cookies'
 
 import vueTouch from './packages/touch'
 import vueAnimate from './packages/animate'
+
 // sync the router with the vuex store.
 // this registers `store.state.route`
 sync(store, router)
@@ -52,8 +53,6 @@ Vue.use(vueAnimate)
 
 Vue.config.productionTip = false
 
-import axios from 'axios'
-Vue.prototype.$ajax = axios;
 // Vue.component('fallback', resolve => resolve(require('./components/fallback')));
 
 router.beforeEach(({meta, path, fullPath}, from, next) => {

@@ -1,20 +1,20 @@
 <template>
   <footer class="footer flex flex-row">
-      <div class="footer-item" :class="{'current':current=='/home'}" @touchend="switchItem('home')">
+      <div class="footer-item" :class="{'current':current=='/home'||current=='/'}" @touchend="switchItem('home')">
           <i class="iconfont icon-shouye"></i>
-          <span class="footer-txt">点点汇</span>
+          <span class="footer-txt">首页</span>
       </div>
       <div class="footer-item" :class="{'current':current=='/category'}" @touchend="switchItem('category')">
           <i class="iconfont icon-leimupinleifenleileibie"></i>
-          <span class="footer-txt">类别</span>
+          <span class="footer-txt">分类</span>
       </div>
       <div class="footer-item" :class="{'current':current=='/cart'}" @touchend="switchItem('cart')">
           <i class="iconfont icon-gouwuche"></i>
-          <span class="footer-txt">购物袋</span>
+          <span class="footer-txt">购物车</span>
       </div>
       <div class="footer-item" :class="{'current':current=='/profile'}" @touchend="switchItem('profile')">
           <i class="iconfont icon-denglu"></i>
-          <span class="footer-txt">个人</span>
+          <span class="footer-txt">我的</span>
       </div>
   </footer>
 </template>
@@ -29,8 +29,6 @@
    background-color:#ffffff;
    box-shadow: 0px -3px 9px #f7f7f7;
 }
-
-
 
 .footer-item.current,.footer-item:active,.footer-item:hover{
     color: $primary-color;
@@ -48,7 +46,6 @@
   }
 }
 
-
 </style>
 <script>
 
@@ -59,25 +56,23 @@ export default {
   props: {
 
   },
-  computed:{
-      ...mapState({
-          current: state => state.route.path
-      })
+  computed: {
+    ...mapState({
+      current: state => state.route.path
+    })
   },
-  created(){
+  created () {
 
   },
   watch: {
 
-
   },
-  methods:{
+  methods: {
 
-      switchItem(name){
-
-        this.$router.replace(name);
-      }
+    switchItem (name) {
+      this.$router.push(name)
+    }
 
   }
-};
+}
 </script>

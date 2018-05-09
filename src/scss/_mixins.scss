@@ -1,7 +1,7 @@
 // Keep images from scaling beyond the width of their parents.
 @mixin img-responsive($display: block) {
   display: $display;
-  max-width: 100%; // Part 1: Set a maximum relative to the parent
+  width: 100%; // Part 1: Set a maximum relative to the parent
   height: auto; // Part 2: Scale the height according to the width, otherwise you get stretching
 }
 
@@ -23,19 +23,20 @@
 //针对无法100% 外面15px的话 那么内部也这么定位
 @mixin grid-fill($gutter:15px) {
   position: absolute;
-  top:($gutter/ 2);
-  right:($gutter / 2);
-  left:($gutter/ 2);
-  bottom:($gutter / 2);
+  top:($gutter);
+  right:($gutter);
+  left:($gutter);
+  bottom:($gutter );
 }
 
 
 //针对weex特质padding
-@mixin padding($padding-left,$padding-top,$padding-bottom,$padding-right) {
-  padding-left: $padding-left;
+@mixin padding($padding-top,$padding-left,$padding-bottom,$padding-right) {
   padding-top: $padding-top;
+  padding-left: $padding-left;
   padding-bottom: $padding-bottom;
   padding-right: $padding-right;
+
 }
 
 // Clearfix

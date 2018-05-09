@@ -74,6 +74,7 @@ export default {
       // 主动不要动画
       if (to.meta.noPageAnimation == from.meta.noPageAnimation == true) {
         this.transitionName = ''
+        this.historyRoutes = []
       } else if (isSeries(to.path, from.path)) { // 同系列
         const toDepth = to.path.split('/').length
         const fromDepth = from.path.split('/').length
@@ -84,7 +85,9 @@ export default {
         } else {
           if (from.name != null) {
             this.transitionName = 'page-push'
-            this.historyRoutes.push(from.name)
+            if(!to.meta.noPageAnimation) {
+              this.historyRoutes.push(from.name)
+            }
           }
         }
       } else { // 不同系列
@@ -94,7 +97,9 @@ export default {
         } else { // 默认push
           if (from.name != null) {
             this.transitionName = 'page-push'
-            this.historyRoutes.push(from.name)
+            if(!to.meta.noPageAnimation) {
+              this.historyRoutes.push(from.name)
+            }
           }
         }
       }

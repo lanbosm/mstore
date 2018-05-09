@@ -35,7 +35,7 @@
         </scroll>
 
       </div>
-      <data-empty v-else></data-empty>
+      <data-loading v-else></data-loading>
 
     </div>
   </div>
