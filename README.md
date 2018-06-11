@@ -17,7 +17,9 @@ vue游戏商城
 ## 运行演示
 #### 线上地址：[mstore]( http://lanbo.dorodoro-lab.com)
 #### 移动端请扫描下面二维码：
-暂无
+
+![QRCode](static/images/QRCode.png)
+
 ## Build Setup
 
 ``` bash
